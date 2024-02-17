@@ -1,7 +1,7 @@
 require "firebase_authenticator.rb"
 
 class Api::ApiController < ApplicationController
-  before action :authenticate_user
+  before_action :authenticate_user
 
   class AuthenticationError < StandardError; end
 
