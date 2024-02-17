@@ -1,4 +1,6 @@
-class Api::V1::MarkersController < ApplicationController
+class Api::V1::MarkersController < Api::ApiController
+  skip_before_action :authenticate_user, only: [:create]
+
   def create
     marker = Marker.new(marker_params)
     if marker.save
