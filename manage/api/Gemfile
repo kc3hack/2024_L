@@ -46,3 +46,8 @@ group :development do
   # gem "spring"
 end
 
+# JSON Web Tokens
+gem "jwt"
+
+# 環境変数読込
+gem "dotenv-rails"
