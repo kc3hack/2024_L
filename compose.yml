@@ -1,0 +1,62 @@
+version: "3"
+services:
+  manage-api:
+    build:
+      context: ./manage/api
+      dockerfile: ./Dockerfile
+      args:
+        - HOST_UID=1000
+        - HOST_GID=1000
+    volumes:
+      - ./manage/api:/usr/src/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+
+  manage-web:
+    build:
+      context: ./manage/web
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./manage/web:/usr/src/app
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      PORT: 8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - manage-api
+    tty: true
+    stdin_open: true
+
+  db:
+    image: mysql:8.2.0
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    volumes:
+      - db-volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./client:/usr/src/app
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - manage-api
+    tty: true
+    stdin_open: true
+
+volumes:
+  db-volume:
