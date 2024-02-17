@@ -5,8 +5,8 @@ class Api::ApiController < ApplicationController
 
   class AuthenticationError < StandardError; end
 
-  rescue_from AuthenticationError do |e|
-    render json: { status: "error", data: { message: e.message } }, status: :unauthorized
+  rescue_from AuthenticationError do |error|
+    render json: { status: "error", data: { error: error, message: error.message } }, status: :unauthorized
   end
 
   def authenticate_user
@@ -16,6 +16,4 @@ class Api::ApiController < ApplicationController
   def current_user
     @current_user ||= FirebaseAuthenticator.new(request.headers["Authorization"]).authenticate
   end
-
-  
 end
