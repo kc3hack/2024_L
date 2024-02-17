@@ -10,10 +10,12 @@ class Api::ApiController < ApplicationController
   end
 
   def authenticate_user
-    raise AuthenticationError.new("Unauthorized") unless current_user
+    token = request.headers["Authorization"]&.split(" ")&.last
+    payload = FirebaseAuthenticator.new(token).validate!
+    raise AuthenticationError.new("Not Loginded") unless current_user(payload["user_id"])
   end
 
-  def current_user
-    @current_user ||= FirebaseAuthenticator.new(request.headers["Authorization"]).authenticate
+  def current_user(user_id)
+    @current_user ||= User.find_by(uid: user_id)
   end
 end
