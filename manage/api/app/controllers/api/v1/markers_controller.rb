@@ -24,6 +24,15 @@ class Api::V1::MarkersController < Api::ApiController
     end
   end
 
+  def destroy
+    marker = Marker.find(params[:id])
+    if marker.destroy
+      render json: { status: "success", data: { marker: marker } }, status: :ok
+    else
+      render json: { status: "error", data: { error: marker.errors } }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def marker_params
