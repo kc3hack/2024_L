@@ -6,6 +6,16 @@ class Api::V1::MarkersController < Api::ApiController
     render json: { status: "success", data: { markers: markers } }, status: :ok
   end
 
+  def show
+    marker = Marker.find(params[:id])
+
+    if marker.nil?
+      render json: { status: "error", data: { error: "Marker not found" } }, status: :not_found
+    else
+      render json: { status: "success", data: { marker: marker } }, status: :ok
+    end
+  end
+
   def create
     marker = Marker.new(marker_params)
     if marker.save
