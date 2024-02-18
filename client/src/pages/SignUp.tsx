@@ -43,8 +43,8 @@ const SignUp = () => {
 
       await api.post('/v1/users', { nickname: nickname }, { headers: headers });
 
-      // ホーム画面に遷移
-      location.pathname = "/";
+      // ホーム画面(現状はウェルカムページ)に遷移
+      location.pathname = "/welcome";
     } catch (error: any) {
       alert(error.message);
     }
