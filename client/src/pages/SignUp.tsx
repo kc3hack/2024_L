@@ -15,11 +15,9 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  console.log("hello singup");
 
   // ユーザー登録処理
   const handleSignUp = async () => {
-    console.log("handle signup");
     if (password !== passwordConfirmation) {
       alert("パスワードとパスワード（確認）が一致しません");
       return;
@@ -27,24 +25,22 @@ const SignUp = () => {
 
     const auth = getAuth();
     try {
-      console.log("getAuth");
       const userCrediential = await createUserWithEmailAndPassword(auth, email, password)
       // ユーザー登録が完了
-      console.log("create user");
 
       const token = await getIdToken(userCrediential.user);
 
       // api通信
-      const nickname = "";
+      const name = "";
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       }
 
-      await api.post('/v1/users', { nickname: nickname }, { headers: headers });
+      await api.post('/v1/users', { name: name }, { headers: headers });
 
       // ホーム画面(現状はウェルカムページ)に遷移
-      location.pathname = "/welcome";
+      location.pathname = "/";
     } catch (error: any) {
       alert(error.message);
     }
