@@ -40,6 +40,7 @@ export const useCreateMarker = ({ config }: UseCreateMarkerOptions = {}) => {
             if (context?.previousMarkers) {
                 queryClient.setQueryData('markers', context.previousMarkers);
             }
+            alert('作成に失敗しました。');
         },
         onSuccess: () => {
             queryClient.invalidateQueries('markers');

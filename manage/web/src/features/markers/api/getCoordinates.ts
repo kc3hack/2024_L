@@ -13,14 +13,14 @@ type Geometry = {
 }
 
 const getGeometry = async (address: string):Promise<Geometry[]> => {
-    return axios.get(`https:////msearch.gsi.go.jp/address-search/AddressSearch?q=${address}`)
+    return axios.get(`https://msearch.gsi.go.jp/address-search/AddressSearch?q=${address}`)
         .then((response) => {
             return response.data;
         })
 }
 
 type Coordinates = {
-    latitude: number,
+    latitude: number ,
     longitude: number
 };
 

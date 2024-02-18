@@ -18,7 +18,7 @@ export const CreateMarker = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex flex-col justify-center items-center w-[100vw]">
+        <div className="flex flex-col justify-center items-center">
             <Form<CreateMarkerDTO['marker'], typeof schema>
                 id="create-marker"
                 onSubmit={async (values) => {
