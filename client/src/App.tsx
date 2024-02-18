@@ -1,15 +1,15 @@
-import "./index.css";
-import Routing from './Routing';
+import Routing from "./Routing";
 
-const App = () =>{
-
+const App = () => {
   return (
     <div className="App">
-      <div className="md:container mx-auto mx-8 my-8">
+      <div className="md:container mx-auto my-auto">
         <Routing />
       </div>
     </div>
   );
 }
+
+
 
 export default App;

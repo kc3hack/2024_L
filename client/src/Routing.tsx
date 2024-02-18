@@ -1,21 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// import { Home, Location, SignUp, SignIn} from "./pages";
-// import Maps from "./pages/Maps";
-import SignUp from "./pages/SignUp";
+import Welcome from "./pages/Welcome";
 
 const Routing = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/signin" element={<SignIn />} /> */}
-        {/* <Route path="/maps" element={<Maps />} /> */}
-        {/* <Route path="/location" element={<Location />} /> */}
-      </Routes>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/welcome" element={<Welcome />} />
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 export default Routing;
