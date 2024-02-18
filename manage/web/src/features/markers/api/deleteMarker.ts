@@ -1,11 +1,9 @@
 import { useMutation } from 'react-query';
-
 import { axios } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
-
 import { Marker } from '../types';
 
-export const deleteMarker = ({ markerId }: { markerId: number}) => {
+export const deleteMarker = ({ markerId }: { markerId: number }) => {
     return axios.delete(`/v1/markers/${markerId}`);
 };
 

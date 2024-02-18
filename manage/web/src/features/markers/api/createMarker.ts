@@ -1,8 +1,6 @@
 import { useMutation } from 'react-query';
-
-import { axios } from '@/lib/axios';
 import { MutationConfig, queryClient } from '@/lib/react-query';
-
+import { axios } from '@/lib/axios';
 import { Marker } from '../types';
 
 export type CreateMarkerDTO = {
@@ -15,7 +13,7 @@ export type CreateMarkerDTO = {
     },
 };
 
-export const createMarker = ({marker} : CreateMarkerDTO): Promise<Marker> => {
+export const createMarker = ({ marker }: CreateMarkerDTO): Promise<Marker> => {
     return axios.post(`/v1/markers`, {
         marker: marker,
     }).then((res) => res.data.marker);

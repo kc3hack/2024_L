@@ -1,8 +1,8 @@
-import {axios} from "@/lib/axios";
+import { useQuery } from "react-query";
+import { ExtractFnReturnType, QueryConfig } from "@/lib/react-query";
+import { axios } from "@/lib/axios";
 import { Marker } from "../types";
-import {ExtractFnReturnType, QueryConfig} from "@/lib/react-query";
-import {useQuery} from "react-query";
-export const getMarkers = (): Promise<Marker[]>  => {
+export const getMarkers = (): Promise<Marker[]> => {
     return axios.get("/v1/markers")
         .then((res) => res.data.markers)
 }

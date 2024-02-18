@@ -1,11 +1,10 @@
+import {useNavigate} from "react-router-dom";
 import * as z from 'zod';
 import {Form, Input} from '@/components/Form';
-
-import {useMarker} from '../api/getMarker';
-import {UpdateMarkerDTO, useUpdateMarker} from '../api/updateMarker';
 import {Button} from "@/components/Elements";
 import {getCoordinates} from "@/features/markers/api/getCoordinates";
-import {useNavigate} from "react-router-dom";
+import {useMarker} from '../api/getMarker';
+import {UpdateMarkerDTO, useUpdateMarker} from '../api/updateMarker';
 
 type UpdateMarkerProps = {
     markerId: number;

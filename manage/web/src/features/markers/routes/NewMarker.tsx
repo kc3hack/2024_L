@@ -1,6 +1,5 @@
 import { ContentLayout } from "@/components/Layout";
 import { CreateMarker } from "../components/CreateMarker";
-import React from "react";
 
 export const NewMarker = () => {
     return (

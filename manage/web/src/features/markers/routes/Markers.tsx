@@ -1,6 +1,6 @@
-import {ContentLayout} from "@/components/Layout";
-import {Link} from "@/components/Elements";
-import {MarkersList} from "../components/MarkersList";
+import { ContentLayout } from "@/components/Layout";
+import { Link } from "@/components/Elements";
+import { MarkersList } from "../components/MarkersList";
 
 export const Markers = () => {
     return (
