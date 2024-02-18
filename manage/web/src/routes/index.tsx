@@ -20,6 +20,7 @@ export const AppRoutes = () => {
                 { path: '/markers', element: <Markers /> },
                 { path: '/marker/new', element: <NewMarker /> },
                 { path: '/marker/:id/edit', element: <EditMarker /> },
+                { path: '*', element: <div className="text-center underline text-xl mt-[50vh]">404 Not Found</div> }
             ]
         }
     ]

@@ -22,9 +22,6 @@ export const updateMarker = ({
 }: UpdateMarkerDTO): Promise<Marker> => {
     return axios.put(`/v1/markers/${markerId}`, marker)
         .then((res) => res.data.marker)
-        .catch((error) => {
-            console.error(error);
-        })
 };
 
 type UseUpdateMarkerOptions = {

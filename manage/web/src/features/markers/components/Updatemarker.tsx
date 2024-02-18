@@ -25,7 +25,7 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex flex-col justify-center items-center w-[100vw]">
+        <div className="flex flex-col justify-center items-center">
             <Form<UpdateMarkerDTO['marker'], typeof schema>
                 id="update-marker"
                 onSubmit={async (values) => {
