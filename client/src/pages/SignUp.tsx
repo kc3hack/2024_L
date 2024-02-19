@@ -46,16 +46,18 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="w-72 bg-white rounded-md shadow-lg p-6">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <p className="text-5xl font-bold text-center p-20 whitespace-nowrap">関西オデッセイ</p>
+
+      <div className="flex items-center justify-center">
+      <div className="w-72 bg-white rounded-md shadow-lg p-4">
         <form className="login">
           <fieldset>
-            <legend className="bg-orange-500 text-white px-6 py-3 text-lg rounded-t-md">SignUp</legend>
-
+            <legend className="px-6 text-lg rounded-t-md">メールアドレス</legend>
             <div className="mb-4">
               <div className="relative">
                 <input
-                  className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none focus:border-orange-500"
+                  className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none bg-gray-200 focus:border-orange-500"
                   name="email"
                   type="email"
                   placeholder="メールアドレス"
@@ -65,10 +67,11 @@ const SignUp = () => {
               </div>
             </div>
 
+            <legend className="px-6 text-lg rounded-t-md">パスワード</legend>
             <div className="mb-4">
               <div className="relative">
                 <input
-                  className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none focus:border-orange-500"
+                  className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none bg-gray-200 focus:border-orange-500"
                   name="password"
                   type="password"
                   placeholder="パスワード"
@@ -78,10 +81,11 @@ const SignUp = () => {
               </div>
             </div>
 
+            <legend className="px-6 text-lg rounded-t-md">パスワード（確認用）</legend>
             <div className="mb-4">
               <div className="relative">
                 <input
-                  className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none focus:border-orange-500"
+                  className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none bg-gray-200 focus:border-orange-500"
                   name="passwordConfirmation"
                   type="password"
                   placeholder="パスワード（確認用）"
@@ -94,7 +98,7 @@ const SignUp = () => {
             <div>
               <button
                 type="button"
-                className="submit block mx-auto bg-orange-500 text-white rounded-full w-12 h-12 text-2xl cursor-pointer transition-all duration-200 hover:bg-orange-600 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange"
+                className="submit block mx-auto my-12 bg-red-500 text-white rounded-full w-44 h-20 text-2xl font-bold cursor-pointer transition-all duration-200 hover:bg-orange-600 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange"
                 onClick={handleSignUp}
               >
                 新規登録
@@ -103,6 +107,7 @@ const SignUp = () => {
           </fieldset>
         </form>
       </div>
+    </div>
     </div>
   );
 }
