@@ -1,0 +1,1 @@
+export const API_URL = process.env.REACT_APP_API_SERVER_PROTOCOL + '://' + process.env.REACT_APP_API_SERVER_FQDN + ':' + process.env.REACT_APP_API_SERVER_PORT as string;
