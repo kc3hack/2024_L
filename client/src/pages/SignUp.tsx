@@ -1,6 +1,6 @@
 import { useState } from "react";
-
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { getAuth, createUserWithEmailAndPassword, getIdToken } from "firebase/auth";
 import { API_URL } from '../config';
@@ -11,10 +11,10 @@ const api = axios.create({
 });
 
 const SignUp = () => {
-  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const navigate = useNavigate();
 
   // ユーザー登録処理
   const handleSignUp = async () => {
@@ -29,18 +29,18 @@ const SignUp = () => {
       // ユーザー登録が完了
 
       const token = await getIdToken(userCrediential.user);
-
+      
       // api通信
-      const name = "";
+      const name = '';
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       }
 
-      await api.post('/v1/users', { name: name }, { headers: headers });
+      await api.post('/api/v1/users', { name: name }, { headers: headers });
 
       // ホーム画面(現状はウェルカムページ)に遷移
-      location.pathname = "/";
+      navigate('/');
     } catch (error: any) {
       alert(error.message);
     }
@@ -98,7 +98,7 @@ const SignUp = () => {
                 className="submit block mx-auto bg-orange-500 text-white rounded-full w-12 h-12 text-2xl cursor-pointer transition-all duration-200 hover:bg-orange-600 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange"
                 onClick={handleSignUp}
               >
-                →
+                新規登録
               </button>
             </div>
           </fieldset>
