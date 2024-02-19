@@ -29,7 +29,6 @@ const SignUp = () => {
       // ユーザー登録が完了
 
       const token = await getIdToken(userCrediential.user);
-      console.log("!");
       // api通信
       const name = '';
       const headers = {
