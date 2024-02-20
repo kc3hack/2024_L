@@ -19,7 +19,7 @@ const Home = () => {
                     <hr />
                     <br />
                     <div className="flex items-center justify-center w-screen">
-                        <HomeIcon fontSize='large' className="" />
+                        <HomeIcon fontSize='large' />
                         <MapIcon fontSize='large' className="ml-8" />
                         <EmojiEventsIcon fontSize='large' className="ml-8" />
                         <AccountCircleIcon fontSize='large' className="ml-8" />
