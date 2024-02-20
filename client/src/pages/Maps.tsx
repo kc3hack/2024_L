@@ -1,14 +1,42 @@
 import React, { useState } from "react";
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { useLoadScript } from "@react-google-maps/api";
+
 
 const Maps = () => {
-    const auth = getAuth();
-    const html = `<iframe width="90%" height="450" style="border:0" Load="lazy" allowfullscreen
-    src="https://www.google.com/maps/embed/v1/place?q=大阪工業大学枚方キャンパス&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}"></iframe>`;
-    
+    const apiKey = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
+    const containerStyle = {
+        width: '500px',
+        height: '500px'
+      };
+      
+      const center = {
+        lat: -34.397,
+        lng: 150.644
+      };
+      
+      const locations = [
+        { lat: -34.397, lng: 150.644 },
+        { lat: -34.390, lng: 150.650 },
+        // 他の地点
+      ];
+
     return (
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-    );
+        <LoadScript
+          googleMapsApiKey={apiKey} // ここにAPIキーを設定
+        >
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={10}
+          >
+            {locations.map((location, index) => (
+              <Marker key={index} position={location} />
+            ))}
+          </GoogleMap>
+        </LoadScript>
+      );
 };
 export default Maps;
