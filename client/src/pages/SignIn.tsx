@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Navigate, useLocation } from "react-router-dom";
-
-import { getAuth, createUserWithEmailAndPassword, getIdToken } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, getIdToken } from "firebase/auth";
 import { API_URL } from '../config';
 import axios from "axios";
 
@@ -13,30 +11,23 @@ const api = axios.create({
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const navigate = useNavigate();
 
-  // ユーザー登録処理
+  // ログイン処理
   const handleSignIn = async () => {
-    if (password !== passwordConfirmation) {
-      alert("パスワードとパスワード（確認）が一致しません");
-      return;
-    }
-
     const auth = getAuth();
     try {
-      const userCrediential = await createUserWithEmailAndPassword(auth, email, password)
-      // ユーザー登録が完了
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // ログイン成功
 
-      const token = await getIdToken(userCrediential.user);
+      const token = await getIdToken(userCredential.user);
       // api通信
-      const name = '';
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       }
 
-      await api.post('/api/v1/users', { name: name }, { headers: headers });
+      // You can make an API call if needed, similar to SignUp component
 
       // ホーム画面(現状はウェルカムページ)に遷移
       navigate('/');
@@ -48,10 +39,10 @@ const SignIn = () => {
   return (
     <div className="w-screen" style={{ backgroundImage: "url(/background.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
       <div className="items-center">
-        <img src="KansaiOdyssey.png" style={{ width: '50%', height: '50%' }}/>
+        <img src="KansaiOdyssey.png" alt="関西オデッセイ_ロゴ" style={{ width: '50%', height: '50%' }}/>
         <div className="flex items-center justify-center">
           <div className="w-72 bg-white rounded-md shadow-lg p-4">
-            <form className="login">
+            <form className="signIn">
               <fieldset>
                 <div className="mb-10">
                   <div className="relative">
@@ -85,7 +76,7 @@ const SignIn = () => {
                     className="submit block mx-auto my-5 bg-red-500 text-white rounded-full w-40 h-10 text-1xl font-bold cursor-pointer transition-all duration-200 hover:bg-orange-600 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange"
                     onClick={handleSignIn}
                   >
-                    ろぐいん
+                    ログイン
                   </button>
                 </div>
               </fieldset>
