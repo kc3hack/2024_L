@@ -13,7 +13,7 @@ const Maps = () => {
 
     const containerStyle = {
         width: '90%',
-        height: '90%'
+        height: '80%'
     };
 
     const center = {
@@ -34,7 +34,7 @@ const Maps = () => {
     return (
         <div className="flex flex-col items-center justify-center h-screen">
             <APIProvider apiKey={API}>
-                <Map defaultCenter={center} mapId={mapId} defaultZoom={18} >
+                <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
                     {locations.map((location, index) => {
                         if (selected === "all" || !location.isreached) {
                             return (
