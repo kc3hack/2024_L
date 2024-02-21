@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :users, only: [:create]
       resources :markers, only: [:index, :show, :create, :update, :destroy]
       resources :grades, only: [:index]
+      resources :marker_colors, only: [:index]
     end
   end
 end
