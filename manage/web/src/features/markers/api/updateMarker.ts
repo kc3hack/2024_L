@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
-import { MutationConfig, queryClient } from '@/lib/react-query';
-import { axios } from '@/lib/axios';
-import { Marker } from '../types';
+import {useMutation} from 'react-query';
+import {MutationConfig, queryClient} from '@/lib/react-query';
+import {axios} from '@/lib/axios';
+import {Marker} from '../types';
 
 export type UpdateMarkerDTO = {
     marker: {
@@ -14,19 +14,19 @@ export type UpdateMarkerDTO = {
     markerId: number,
 };
 
-export const updateMarker = ({
-    marker,
-    markerId
-}: UpdateMarkerDTO): Promise<Marker> => {
-    return axios.put(`/v1/markers/${markerId}`, marker)
-        .then((res) => res.data.marker)
+export const updateMarker = async ({
+                                       marker,
+                                       markerId
+                                   }: UpdateMarkerDTO): Promise<Marker> => {
+    const res = await axios.put(`/v1/markers/${markerId}`, marker);
+    return res.data.marker;
 };
 
 type UseUpdateMarkerOptions = {
     config?: MutationConfig<typeof updateMarker>;
 };
 
-export const useUpdateMarker = ({ config }: UseUpdateMarkerOptions = {}) => {
+export const useUpdateMarker = ({config}: UseUpdateMarkerOptions = {}) => {
 
     return useMutation({
         onMutate: async (updatingMarker: any) => {
@@ -43,7 +43,7 @@ export const useUpdateMarker = ({ config }: UseUpdateMarkerOptions = {}) => {
                 id: updatingMarker.markerId,
             });
 
-            return { previousMarker };
+            return {previousMarker};
         },
         onError: (_, __, context: any) => {
             if (context?.previousMarker) {
