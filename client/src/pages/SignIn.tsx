@@ -15,20 +15,19 @@ const SignIn = () => {
 
   // ログイン処理
   const handleSignIn = async () => {
+    // メールアドレスが入力されていない場合はアラートを表示
+    if (email === "") {
+      alert("メールアドレスを入力してください");
+      return;
+    }
+    // パスワードが入力されていない場合はアラートを表示
+    if (password === "") {
+      alert("パスワードを入力してください");
+      return;
+    }
     const auth = getAuth();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // ログイン成功
-
-      const token = await getIdToken(userCredential.user);
-      // api通信
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }
-
-      // You can make an API call if needed, similar to SignUp component
-
       // ホーム画面(現状はウェルカムページ)に遷移
       navigate('/');
     } catch (error: any) {
@@ -73,7 +72,7 @@ const SignIn = () => {
                 <div>
                   <button
                     type="button"
-                    className="submit block mx-auto my-5 bg-red-500 text-white rounded-full w-40 h-10 text-1xl font-bold cursor-pointer transition-all duration-200 hover:bg-orange-600 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange"
+                    className="submit block mx-auto my-5 bg-blue-500 text-white rounded-full w-40 h-10 text-1xl font-bold cursor-pointer transition-all duration-200 hover:bg-orange-600 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange"
                     onClick={handleSignIn}
                   >
                     ログイン
