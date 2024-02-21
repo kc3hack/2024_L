@@ -48,7 +48,7 @@ const SignUp = () => {
   return (
     <div className="w-screen" style={{ backgroundImage: "url(/background.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
       <div className="items-center">
-        <img src="KansaiOdyssey.png" style={{ width: '50%', height: '50%' }}/>
+        <img src="KansaiOdyssey.png" alt="関西オデッセイ_ロゴ" style={{ width: '50%', height: '50%' }}/>
         <div className="flex items-center justify-center">
           <div className="w-72 bg-white rounded-md shadow-lg p-4">
             <form className="login">
