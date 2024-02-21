@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
-import { MutationConfig, queryClient } from '@/lib/react-query';
-import { axios } from '@/lib/axios';
-import { Marker } from '../types';
+import {useMutation} from 'react-query';
+import {MutationConfig, queryClient} from '@/lib/react-query';
+import {axios} from '@/lib/axios';
+import {Marker} from '../types';
 
 export type UpdateMarkerDTO = {
     marker: {
@@ -26,7 +26,7 @@ type UseUpdateMarkerOptions = {
     config?: MutationConfig<typeof updateMarker>;
 };
 
-export const useUpdateMarker = ({ config }: UseUpdateMarkerOptions = {}) => {
+export const useUpdateMarker = ({config}: UseUpdateMarkerOptions = {}) => {
 
     return useMutation({
         onMutate: async (updatingMarker: any) => {
@@ -43,7 +43,7 @@ export const useUpdateMarker = ({ config }: UseUpdateMarkerOptions = {}) => {
                 id: updatingMarker.markerId,
             });
 
-            return { previousMarker };
+            return {previousMarker};
         },
         onError: (_, __, context: any) => {
             if (context?.previousMarker) {
