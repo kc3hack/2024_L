@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { useLoadScript } from "@react-google-maps/api";
+import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps"
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 
 
+
 const Maps = () => {
-    const apiKey = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
+    const API = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
+    const mapId = `${process.env.REACT_APP_GOOGLE_MAPS_ID}`;
+    const [open, setOpen] = useState(false);
+
     const containerStyle = {
         width: '90%',
         height: '90%'
@@ -24,29 +27,27 @@ const Maps = () => {
         // 他の地点
     ];
 
+
     const [selected, setSelected] = useState("all");
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <LoadScript
-                googleMapsApiKey={apiKey} // ここにAPIキーを設定
-            >
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={center}
-                    zoom={18}
-                >
-                    {locations.map((location, index) => (
-                        <Marker key={index} position={location} />
-                    ))}
-                </GoogleMap>
-            </LoadScript>
+            <APIProvider apiKey={API}>
+                <Map defaultCenter={center} mapId={mapId} defaultZoom={18} >
+                    <AdvancedMarker position={center} onClick={() => setOpen(true)} >
+                        <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
+                    </AdvancedMarker>
+                    {open && <InfoWindow position={center} onCloseClick={() => setOpen(false)}>
+                        尾花研へようこそ
+                    </InfoWindow>}
+                </Map>
+            </APIProvider>
+
 
             <div className="form-check">
                 <RadioGroup defaultValue={"all"} onChange={changeValue}>
                     <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
-                    <FormControlLabel value={"onlyopen"} control={<Radio />} label="営業中のみ表示" />
                     <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
                 </RadioGroup>
             </div>
