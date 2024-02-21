@@ -14,12 +14,12 @@ export type UpdateMarkerDTO = {
     markerId: number,
 };
 
-export const updateMarker = ({
-    marker,
-    markerId
-}: UpdateMarkerDTO): Promise<Marker> => {
-    return axios.put(`/v1/markers/${markerId}`, marker)
-        .then((res) => res.data.marker)
+export const updateMarker = async ({
+                                       marker,
+                                       markerId
+                                   }: UpdateMarkerDTO): Promise<Marker> => {
+    const res = await axios.put(`/v1/markers/${markerId}`, marker);
+    return res.data.marker;
 };
 
 type UseUpdateMarkerOptions = {

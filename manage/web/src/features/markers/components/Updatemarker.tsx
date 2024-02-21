@@ -10,6 +10,7 @@ type UpdateMarkerProps = {
     markerId: number;
 };
 
+//バリデーション定義
 const schema = z.object({
     name: z.string().min(1).max(255),
     description: z.string().min(1).max(255),
@@ -18,10 +19,21 @@ const schema = z.object({
     longitude: z.number(),
 });
 
+/**
+ * マーカーの更新フォーム。
+ *
+ * @param markerId
+ * @constructor
+ */
 export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
     const markerQuery = useMarker({markerId});
     const updateMarkerMutation = useUpdateMarker();
     const navigate = useNavigate();
+
+    // マーカ情報ロード中ははローディング表示
+    if (markerQuery.isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="flex flex-col justify-center items-center">
@@ -51,6 +63,8 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                                error={formState.errors['description']} {...register('description')} />
                         <Input type="text" className="mb-10" label="住所"
                                error={formState.errors['address']} {...register('address')} />
+
+                        // 住所から緯度経度を取得するボタン
                         <Button type="button" className="w-[10rem]" onClick={async () => {
                             const address = getValues('address');
                             await getCoordinates(address).then((coordinates) => {
@@ -61,6 +75,7 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         }
                         }>住所から緯度経度を取得</Button>
 
+                        // 緯度経度入力欄(readOnly)
                         <div className="mb-10 flex flex-row">
                             <Input type="text" className="mb-10" label="緯度"
                                    error={formState.errors['latitude']} {...register('latitude')} disabled/>
