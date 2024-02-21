@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:create]
       resources :markers, only: [:index, :show, :create, :update, :destroy]
+      resources :grades, only: [:index]
     end
   end
 end
