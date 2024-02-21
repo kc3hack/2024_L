@@ -18,6 +18,12 @@ class Api::V1::MarkersController < Api::ApiController
     render json: { status: "success", data: { markers: markers } }, status: :ok
   end
 
+  def index_by_user
+    user = User.find_by(uid: params[:user_id])
+    markers = user.markers
+    render json: { status: "success", data: { markers: markers } }, status: :ok
+  end
+
   def show
     marker = Marker.find(params[:id])
 

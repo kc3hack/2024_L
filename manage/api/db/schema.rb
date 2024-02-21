@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_21_033609) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_21_064137) do
   create_table "grades", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.integer "point"
@@ -37,6 +37,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_21_033609) do
     t.index ["latitude", "longitude"], name: "index_markers_on_latitude_and_longitude", unique: true
   end
 
+  create_table "user_marker_links", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "marker_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["marker_id"], name: "index_user_marker_links_on_marker_id"
+    t.index ["user_id"], name: "index_user_marker_links_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.integer "point"
@@ -46,4 +55,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_21_033609) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "user_marker_links", "markers"
+  add_foreign_key "user_marker_links", "users"
 end
