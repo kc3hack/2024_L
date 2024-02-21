@@ -58,6 +58,6 @@ class Api::V1::MarkersController < Api::ApiController
   private
 
   def marker_params
-    params.require(:marker).permit(:name, :description, :latitude, :longitude, :address)
+    params.require(:marker).permit(:name, :description, :latitude, :longitude, :address, :point)
   end
 end

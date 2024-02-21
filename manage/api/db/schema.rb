@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_18_040224) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_21_031943) do
   create_table "markers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_18_040224) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "address", default: "", null: false
+    t.integer "point"
     t.index ["latitude", "longitude"], name: "index_markers_on_latitude_and_longitude", unique: true
   end
 
