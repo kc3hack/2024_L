@@ -10,14 +10,21 @@ type UpdateMarkerProps = {
     markerId: number;
 };
 
+//バリデーション定義
 const schema = z.object({
     name: z.string().min(1).max(255),
-    description: z.string().min(1).max(255),
+    description: z.string().max(255),
     address: z.string().min(1).max(255),
-    latitude: z.number(),
-    longitude: z.number(),
+    latitude: z.number().min(1),
+    longitude: z.number().min(1),
+    point: z.number().min(1),
 });
 
+/**
+ * マーカー更新画面
+ * @param markerId
+ * @constructor
+ */
 export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
     const markerQuery = useMarker({markerId});
     const updateMarkerMutation = useUpdateMarker();
@@ -25,9 +32,11 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
 
     return (
         <div className="flex flex-col justify-center items-center">
+            { /*送信時にマーカー情報を更新する. マーカー情報を初期値として設定する. */}
             <Form<UpdateMarkerDTO['marker'], typeof schema>
                 id="update-marker"
                 onSubmit={async (values) => {
+                    console.log(values.point);
                     await updateMarkerMutation.mutateAsync({marker: values, markerId: markerId});
                     navigate('/markers');
                 }}
@@ -38,6 +47,7 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         address: markerQuery.data?.address,
                         latitude: markerQuery.data?.latitude,
                         longitude: markerQuery.data?.longitude,
+                        point: markerQuery.data?.point,
                     },
                 }}
                 schema={schema}
@@ -46,11 +56,12 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                 {({register, formState, getValues, setValue}) => (
                     <div>
                         <Input type="text" className="mb-10" label="名称"
-                               error={formState.errors['name']} {...register('name')}/>
+                               error={formState.errors['name']} {...register('name')} required/>
                         <Input type="text" className="mb-10" label="説明"
                                error={formState.errors['description']} {...register('description')} />
                         <Input type="text" className="mb-10" label="住所"
-                               error={formState.errors['address']} {...register('address')} />
+                               error={formState.errors['address']} {...register('address')} required/>
+                        {/*住所から緯度経度を取得する. */}
                         <Button type="button" className="w-[10rem]" onClick={async () => {
                             const address = getValues('address');
                             await getCoordinates(address).then((coordinates) => {
@@ -61,12 +72,16 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         }
                         }>住所から緯度経度を取得</Button>
 
-                        <div className="mb-10 flex flex-row">
+                        {/*緯度経度の表示(Readonly) */}
+                        <div className="flex flex-row">
                             <Input type="text" className="mb-10" label="緯度"
-                                   error={formState.errors['latitude']} {...register('latitude')} disabled/>
+                                   error={formState.errors['latitude']} {...register('latitude')} required disabled/>
                             <Input type="text" className="mb-10" label="経度"
-                                   error={formState.errors['longitude']} {...register('longitude')} disabled/>
+                                   error={formState.errors['longitude']} {...register('longitude')} required disabled/>
                         </div>
+                        <Input type="number" className="mb-10" label="ポイント"
+                               error={formState.errors['point']} {...register('point', {valueAsNumber: true})}
+                               required/>
                         <Input type="submit" value="更新する"/>
                     </div>
                 )}
