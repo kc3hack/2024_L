@@ -3,10 +3,13 @@ import {axios} from '@/lib/axios';
 import {ExtractFnReturnType, QueryConfig} from '@/lib/react-query';
 import {Marker} from '../types';
 
+<<<<<<< HEAD
 /**
  * apiからマーカを取得する関数
  * @param markerId
  */
+=======
+>>>>>>> main
 export const getMarker = async ({markerId}: { markerId: number }): Promise<Marker> => {
     const res = await axios.get(`/v1/markers/${markerId}`);
     return res.data.marker;

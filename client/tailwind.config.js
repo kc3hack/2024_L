@@ -7,7 +7,7 @@ module.exports = {
         "slide-in-bottom":
           "slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)   both",
         "text-focus-in":
-          "text-focus-in 3s cubic-bezier(0.550, 0.085, 0.680, 0.530)   both",
+          "text-focus-in 2s cubic-bezier(0.550, 0.085, 0.680, 0.530)   both",
         "tracking-in-expand-fwd-top":
           "tracking-in-expand-fwd-top 2s cubic-bezier(0.215, 0.610, 0.355, 1.000)   both"
       },
