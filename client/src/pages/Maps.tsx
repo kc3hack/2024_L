@@ -13,7 +13,7 @@ const Maps = () => {
 
     const containerStyle = {
         width: '90%',
-        height: '80%'
+        height: '60vh'
     };
 
     const center = {
