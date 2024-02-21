@@ -10,12 +10,7 @@ type UpdateMarkerProps = {
     markerId: number;
 };
 
-<<<<<<< HEAD:manage/web/src/features/markers/components/Updatemarker.tsx
 //バリデーション定義
-=======
-{/* バリデーション定義 */
-}
->>>>>>> main:manage/web/src/features/markers/components/UpdateMarker.tsx
 const schema = z.object({
     name: z.string().min(1).max(255),
     description: z.string().max(255),
@@ -26,12 +21,7 @@ const schema = z.object({
 });
 
 /**
-<<<<<<< HEAD:manage/web/src/features/markers/components/Updatemarker.tsx
- * マーカー更新画面
-=======
  * マーカーの更新フォーム。
- *
->>>>>>> main:manage/web/src/features/markers/components/UpdateMarker.tsx
  * @param markerId
  * @constructor
  */
@@ -76,14 +66,8 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         <Input type="text" className="mb-10" label="説明"
                                error={formState.errors['description']} {...register('description')} />
                         <Input type="text" className="mb-10" label="住所"
-<<<<<<< HEAD:manage/web/src/features/markers/components/Updatemarker.tsx
                                error={formState.errors['address']} {...register('address')} required/>
                         {/*住所から緯度経度を取得する. */}
-=======
-                               error={formState.errors['address']} {...register('address')} />
-
-                        {/* 住所から緯度経度を取得するボタン */}
->>>>>>> main:manage/web/src/features/markers/components/UpdateMarker.tsx
                         <Button type="button" className="w-[10rem]" onClick={async () => {
                             const address = getValues('address');
                             await getCoordinates(address).then((coordinates) => {
@@ -94,13 +78,8 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         }
                         }>住所から緯度経度を取得</Button>
 
-<<<<<<< HEAD:manage/web/src/features/markers/components/Updatemarker.tsx
                         {/*緯度経度の表示(Readonly) */}
                         <div className="flex flex-row">
-=======
-                        { /* 緯度経度入力欄(readOnly)*/}
-                        <div className="mb-10 flex flex-row">
->>>>>>> main:manage/web/src/features/markers/components/UpdateMarker.tsx
                             <Input type="text" className="mb-10" label="緯度"
                                    error={formState.errors['latitude']} {...register('latitude')} required disabled/>
                             <Input type="text" className="mb-10" label="経度"
