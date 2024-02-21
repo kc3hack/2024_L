@@ -8,6 +8,7 @@ import Welcome from "./pages/Welcome";
 import Maps from "./pages/Maps";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 
 const Routing = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const Routing = () => {
       <Route path="/" element={<Home />} />
       <Route path="/welcome" element={<Welcome />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
       <Route path="/maps" element={<Maps />} />
     </Routes>
   );
