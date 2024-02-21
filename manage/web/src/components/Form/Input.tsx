@@ -1,6 +1,7 @@
-import React, { InputHTMLAttributes, Ref } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
-import { FieldWrapper, FieldWrapperPassThroughProps } from "./FormWrapper";
+import React, {InputHTMLAttributes, Ref} from "react";
+import {UseFormRegisterReturn} from "react-hook-form";
+import {FieldWrapper, FieldWrapperPassThroughProps} from "./FieldWrapper";
+
 type BaseProps = {
     className: string;
 }
@@ -25,17 +26,17 @@ const getBaseProps = (type?: string): BaseProps => {
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> &
     FieldWrapperPassThroughProps & {
-        registration?: Partial<UseFormRegisterReturn>
-    };
+    registration?: Partial<UseFormRegisterReturn>
+};
 
 export const Input = React.forwardRef((
-    { className, type, registration, label, error, ...props }: InputProps,
+    {className, type, registration, label, error, required = false, ...props}: InputProps,
     ref: Ref<HTMLInputElement>
 ) => {
     const baseProps = getBaseProps(type);
 
     return (
-        <FieldWrapper label={label} error={error} className={className}>
+        <FieldWrapper label={label} error={error} className={className} required={required}>
             <input
                 ref={ref}
                 type={type}

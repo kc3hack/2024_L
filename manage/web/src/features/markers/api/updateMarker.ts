@@ -10,6 +10,7 @@ export type UpdateMarkerDTO = {
         latitude: number,
         longitude: number,
         address: string,
+        point: number,
     },
     markerId: number,
 };

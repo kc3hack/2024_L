@@ -5,4 +5,5 @@ export type Marker = {
     latitude: number,
     longitude: number,
     address: string,
+    point: number,
 }
