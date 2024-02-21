@@ -10,7 +10,8 @@ type UpdateMarkerProps = {
     markerId: number;
 };
 
-//バリデーション定義
+{/* バリデーション定義 */
+}
 const schema = z.object({
     name: z.string().min(1).max(255),
     description: z.string().min(1).max(255),
@@ -30,7 +31,8 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
     const updateMarkerMutation = useUpdateMarker();
     const navigate = useNavigate();
 
-    // マーカ情報ロード中ははローディング表示
+    {/*  マーカ情報ロード中ははローディング表示 */
+    }
     if (markerQuery.isLoading) {
         return <div>Loading...</div>;
     }
@@ -64,7 +66,7 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         <Input type="text" className="mb-10" label="住所"
                                error={formState.errors['address']} {...register('address')} />
 
-                        // 住所から緯度経度を取得するボタン
+                        {/* 住所から緯度経度を取得するボタン */}
                         <Button type="button" className="w-[10rem]" onClick={async () => {
                             const address = getValues('address');
                             await getCoordinates(address).then((coordinates) => {
