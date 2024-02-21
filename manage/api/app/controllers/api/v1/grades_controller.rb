@@ -1,4 +1,4 @@
-class Api::V1::GradesController < ApplicationController
+class Api::V1::GradesController < Api::ApiController
   skip_before_action :authenticate_user
 
   def index
