@@ -7,14 +7,14 @@ const Welcome = () => {
                 </div>
                 <br />
                 <a href="/signup">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-8 rounded-full animate-tracking-in-expand-fwd-top">
+                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-8 rounded-full animate-tracking-in-expand-fwd-top animate-text-focus-in">
                         新規登録
                     </button>
                 </a>
                 <br />
                 <br />
                 <a href="/signin">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full animate-tracking-in-expand-fwd-top">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-10 rounded-full animate-tracking-in-expand-fwd-top animate-text-focus-in">
                         ログイン
                     </button>
                 </a>
