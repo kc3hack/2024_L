@@ -38,30 +38,33 @@ const Maps = () => {
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <APIProvider apiKey={API}>
-                <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
-                    {locations.map((location, index) => {
-                        if (selected === "all" || !location.isreached) {
-                            return (
-                                <AdvancedMarker key={index} position={location} onClick={() => changeOpenState(index)}>
-                                    <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                                    {open[index] && <InfoWindow key={index} position={location} onCloseClick={() => changeOpenState(index)}>
-                                        {location.description}
-                                    </InfoWindow>}
-                                </AdvancedMarker>
-                            );
-                        }
-                    })}
-                </Map>
-            </APIProvider>
+        <div className="w-screen" style={{ backgroundImage: "url(/home_bg1.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+
+            <div className="flex flex-col items-center justify-center h-screen">
+                <APIProvider apiKey={API}>
+                    <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
+                        {locations.map((location, index) => {
+                            if (selected === "all" || !location.isreached) {
+                                return (
+                                    <AdvancedMarker key={index} position={location} onClick={() => changeOpenState(index)}>
+                                        <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
+                                        {open[index] && <InfoWindow key={index} position={location} onCloseClick={() => changeOpenState(index)}>
+                                            {location.description}
+                                        </InfoWindow>}
+                                    </AdvancedMarker>
+                                );
+                            }
+                        })}
+                    </Map>
+                </APIProvider>
 
 
-            <div className="form-check">
-                <RadioGroup defaultValue={"all"} onChange={changeValue}>
-                    <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
-                    <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
-                </RadioGroup>
+                <div className="form-check">
+                    <RadioGroup defaultValue={"all"} onChange={changeValue}>
+                        <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
+                        <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
+                    </RadioGroup>
+                </div>
             </div>
         </div>
     );
