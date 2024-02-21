@@ -16,6 +16,7 @@ const api = axios.create({
 });
 
 type APIUserDataType = {
+  id: number;
   uid: string;
   name: string;
   point: number;
