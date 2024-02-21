@@ -20,7 +20,7 @@ const Home = () => {
                     <br />
                     <div className="flex items-center justify-center w-screen">
                         <a href='/'><HomeIcon fontSize='large' /></a>
-                        <MapIcon fontSize='large' className="ml-8" />
+                        <a href='/maps'><MapIcon fontSize='large' className="ml-8" /></a>
                         <EmojiEventsIcon fontSize='large' className="ml-8" />
                         <AccountCircleIcon fontSize='large' className="ml-8" />
                     </div>
