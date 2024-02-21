@@ -75,7 +75,7 @@ export const UpdateMarker = ({markerId}: UpdateMarkerProps) => {
                         }
                         }>住所から緯度経度を取得</Button>
 
-                        // 緯度経度入力欄(readOnly)
+                        { /* 緯度経度入力欄(readOnly)*/}
                         <div className="mb-10 flex flex-row">
                             <Input type="text" className="mb-10" label="緯度"
                                    error={formState.errors['latitude']} {...register('latitude')} disabled/>
