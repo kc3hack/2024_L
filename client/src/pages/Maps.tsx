@@ -22,8 +22,8 @@ const Maps = () => {
     };
 
     const locations = [
-        { lat: 34.841928, lng: 135.705585 },
-        { lat: -34.390, lng: 150.650 },
+        { lat: 34.841928, lng: 135.705585, description: "尾花研へようこそ", isreached: true },
+        { lat: -34.390, lng: 150.650, description: "オーストラリア", isreached: false },
         // 他の地点
     ];
 
@@ -35,12 +35,18 @@ const Maps = () => {
         <div className="flex flex-col items-center justify-center h-screen">
             <APIProvider apiKey={API}>
                 <Map defaultCenter={center} mapId={mapId} defaultZoom={18} >
-                    <AdvancedMarker position={center} onClick={() => setOpen(true)} >
-                        <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                    </AdvancedMarker>
-                    {open && <InfoWindow position={center} onCloseClick={() => setOpen(false)}>
-                        尾花研へようこそ
-                    </InfoWindow>}
+                    {locations.map((location, index) => {
+                        if (selected === "all" || !location.isreached) {
+                            return (
+                                <AdvancedMarker key={index} position={location} onClick={() => setOpen(true)}>
+                                    <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
+                                    {open && <InfoWindow position={location} onCloseClick={() => setOpen(false)}>
+                                        {location.description}
+                                    </InfoWindow>}
+                                </AdvancedMarker>
+                            );
+                        }
+                    })}
                 </Map>
             </APIProvider>
 
