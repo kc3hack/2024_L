@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword, getIdToken } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +21,8 @@ const SignIn = () => {
     }
     const auth = getAuth();
     try {
+      // ログイン処理
+      await signInWithEmailAndPassword(auth, email, password);
       // ホーム画面(現状はウェルカムページ)に遷移
       navigate('/');
     } catch (error: any) {
