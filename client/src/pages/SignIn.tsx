@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword, getIdToken } from "firebase/auth";
-import { API_URL } from '../config';
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: API_URL
-});
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +21,6 @@ const SignIn = () => {
     }
     const auth = getAuth();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       // ホーム画面(現状はウェルカムページ)に遷移
       navigate('/');
     } catch (error: any) {
