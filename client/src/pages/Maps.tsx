@@ -14,12 +14,12 @@ const Maps = () => {
     };
 
     const center = {
-        lat: -34.397,
-        lng: 150.644
+        lat: 34.841928,
+        lng: 135.705585
     };
 
     const locations = [
-        { lat: -34.397, lng: 150.644 },
+        { lat: 34.841928, lng: 135.705585 },
         { lat: -34.390, lng: 150.650 },
         // 他の地点
     ];
@@ -35,7 +35,7 @@ const Maps = () => {
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     center={center}
-                    zoom={10}
+                    zoom={18}
                 >
                     {locations.map((location, index) => (
                         <Marker key={index} position={location} />
