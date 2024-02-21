@@ -9,7 +9,7 @@ import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 const Maps = () => {
     const API = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
     const mapId = `${process.env.REACT_APP_GOOGLE_MAPS_ID}`;
-    const [open, setOpen] = useState(false);
+
 
     const containerStyle = {
         width: '90%',
@@ -27,6 +27,12 @@ const Maps = () => {
         // 他の地点
     ];
 
+    const [open, setOpen] = useState(Array(locations.length).fill(false));
+    const changeOpenState = (index: number) => {
+        const newOpenState = [...open];
+        newOpenState[index] = !newOpenState[index];
+        setOpen(newOpenState);
+    };
 
     const [selected, setSelected] = useState("all");
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
@@ -38,9 +44,9 @@ const Maps = () => {
                     {locations.map((location, index) => {
                         if (selected === "all" || !location.isreached) {
                             return (
-                                <AdvancedMarker key={index} position={location} onClick={() => setOpen(true)}>
+                                <AdvancedMarker key={index} position={location} onClick={() => changeOpenState(index)}>
                                     <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                                    {open && <InfoWindow position={location} onCloseClick={() => setOpen(false)}>
+                                    {open[index] && <InfoWindow key={index} position={location} onCloseClick={() => changeOpenState(index)}>
                                         {location.description}
                                     </InfoWindow>}
                                 </AdvancedMarker>
