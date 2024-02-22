@@ -25,7 +25,7 @@ const Maps = () => {
         address: string,
         point: number,
     }[]>([]);
-    const [isLoading, setIsLoading ] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const containerStyle = {
         width: '90%',
@@ -60,41 +60,43 @@ const Maps = () => {
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            {isLoading?(
-                <div>Loading...</div>
-            ):(
-                <APIProvider apiKey={API}>
-                    <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
-                        {Array.isArray(locations) && locations.map((location, index) => {
-                            const lat = location.latitude;
-                            const lng = location.longitude;
-                            return (
-                                <AdvancedMarker key={index} position={{lat, lng}} onClick={() => changeOpenState(index)}>
-                                    <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                                    {open[index] && <InfoWindow key={index} position={{lat, lng}} onCloseClick={() => changeOpenState(index)}>
-                                        <div className="leading-loose bg-transparent">
-                                            {location.name}
-                                            {location.description}
-                                            <p className="underline shadow-lg">
-                                                {location.point}ポイント
-                                            </p>
-                                        </div>
-                                    </InfoWindow>}
-                                </AdvancedMarker>
-                            );
+        <div className="w-screen" style={{ backgroundImage: "url(/home_bg.jpg)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+            <div className="flex flex-col items-center justify-center h-screen">
+                {isLoading ? (
+                    <div>Loading...</div>
+                ) : (
+                    <APIProvider apiKey={API}>
+                        <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
+                            {Array.isArray(locations) && locations.map((location, index) => {
+                                const lat = location.latitude;
+                                const lng = location.longitude;
+                                return (
+                                    <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
+                                        <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
+                                        {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
+                                            <div className="leading-loose bg-transparent">
+                                                {location.name}
+                                                {location.description}
+                                                <p className="underline shadow-lg">
+                                                    {location.point}ポイント
+                                                </p>
+                                            </div>
+                                        </InfoWindow>}
+                                    </AdvancedMarker>
+                                );
 
-                        })}
-                    </Map>
-                </APIProvider>
+                            })}
+                        </Map>
+                    </APIProvider>
                 )}
 
 
-            <div className="form-check">
-                <RadioGroup defaultValue={"all"} onChange={changeValue}>
-                    <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
-                    <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
-                </RadioGroup>
+                <div className="form-check">
+                    <RadioGroup defaultValue={"all"} onChange={changeValue}>
+                        <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
+                        <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
+                    </RadioGroup>
+                </div>
             </div>
         </div>
     );
