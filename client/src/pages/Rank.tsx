@@ -1,7 +1,7 @@
 const Rank = () => {
     return (
-        <div className="w-screen" style={{ backgroundImage: "url(/home_bg2.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
-            <div className="font-black font-mono text-center">
+        <div className="w-screen flex justify-center items-center" style={{ backgroundImage: "url(/home_bg2.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+            <div className="font-black font-mono text-center mt-1/4"> {/* mt-1/4 を追加 */}
                 <div className="text-2xl items-center animate-tracking-in-expand">
                     あなたのランクは・・・
                 </div>
