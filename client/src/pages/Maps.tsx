@@ -25,16 +25,15 @@ const Maps = () => {
         address: string,
         point: number,
     }[]>([]);
-    const [isLoading, setIsLoading ] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [pos, setPos] = useState({
+        lat: 34.841928,
+        lng: 135.705585
+    });
 
     const containerStyle = {
         width: '90%',
         height: '60vh'
-    };
-
-    const center = {
-        lat: 34.841928,
-        lng: 135.705585
     };
 
     useEffect(() => {
@@ -50,29 +49,47 @@ const Maps = () => {
 
 
     const [open, setOpen] = useState(Array(locations.length).fill(false));
+    const [open_cu, setOpen_cu] = useState(false);
+
     const changeOpenState = (index: number) => {
         const newOpenState = [...open];
         newOpenState[index] = !newOpenState[index];
         setOpen(newOpenState);
     };
 
+
     const [selected, setSelected] = useState("all");
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            {isLoading?(
+            {isLoading ? (
                 <div>Loading...</div>
-            ):(
+            ) : (
                 <APIProvider apiKey={API}>
-                    <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
+                    <Map defaultCenter={pos} mapId={mapId} style={containerStyle} defaultZoom={18} >
+                        <AdvancedMarker position={pos} draggable onClick={() => setOpen_cu(true)} onDrag={
+                            function(e){
+                                const lat_t = e.latLng?.lat();
+                                const lng_t = e.latLng?.lng();
+                                if(typeof lat_t === "number" && typeof lng_t === "number"){
+                                    setPos({ ...pos, lat: lat_t, lng: lng_t});
+                                }
+                        }}>
+                            <Pin background={"black"} borderColor={"white"} scale={2} />
+                            {open_cu && <InfoWindow position={pos} onCloseClick={() => setOpen_cu(false)}>
+                                <div className="leading-loose bg-transparent">
+                                    {pos.lat}, {pos.lng}
+                                </div>
+                            </InfoWindow>}
+                        </AdvancedMarker>
                         {Array.isArray(locations) && locations.map((location, index) => {
                             const lat = location.latitude;
                             const lng = location.longitude;
                             return (
-                                <AdvancedMarker key={index} position={{lat, lng}} onClick={() => changeOpenState(index)}>
+                                <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
                                     <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                                    {open[index] && <InfoWindow key={index} position={{lat, lng}} onCloseClick={() => changeOpenState(index)}>
+                                    {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
                                         <div className="leading-loose bg-transparent">
                                             {location.name}
                                             {location.description}
@@ -87,7 +104,8 @@ const Maps = () => {
                         })}
                     </Map>
                 </APIProvider>
-                )}
+            )
+            }
 
 
             <div className="form-check">
@@ -96,7 +114,7 @@ const Maps = () => {
                     <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
                 </RadioGroup>
             </div>
-        </div>
+        </div >
     );
 };
 export default Maps;
