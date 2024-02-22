@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { getAuth } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps"
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import { API_URL } from '../config';
+import axios from "axios";
 
+const api = axios.create({
+    baseURL: API_URL
+});
 
 
 const Maps = () => {
     const API = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
     const mapId = `${process.env.REACT_APP_GOOGLE_MAPS_ID}`;
-
+    const [locations, setLocations] = useState<{
+        id: number,
+        name: string,
+        description: string,
+        latitude: number,
+        longitude: number,
+        created_at: string,
+        update_at: string,
+        address: string,
+        point: number,
+    }[]>([]);
+    const [isLoading, setIsLoading ] = useState<boolean>(true);
 
     const containerStyle = {
         width: '90%',
@@ -21,11 +37,17 @@ const Maps = () => {
         lng: 135.705585
     };
 
-    const locations = [
-        { lat: 34.841928, lng: 135.705585, description: "尾花研へようこそ", isreached: true },
-        { lat: -34.390, lng: 150.650, description: "オーストラリア", isreached: false },
-        // 他の地点
-    ];
+    useEffect(() => {
+        const apiGet = async () => {
+            const responce = await api.get('/api/v1/markers');
+            const locations_api = responce.data.data.markers;
+            setLocations(locations_api);
+        };
+        apiGet();
+        setIsLoading(false);
+    }, []);
+
+
 
     const [open, setOpen] = useState(Array(locations.length).fill(false));
     const changeOpenState = (index: number) => {
@@ -39,22 +61,33 @@ const Maps = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen">
-            <APIProvider apiKey={API}>
-                <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
-                    {locations.map((location, index) => {
-                        if (selected === "all" || !location.isreached) {
+            {isLoading?(
+                <div>Loading...</div>
+            ):(
+                <APIProvider apiKey={API}>
+                    <Map defaultCenter={center} mapId={mapId} style={containerStyle} defaultZoom={18} >
+                        {Array.isArray(locations) && locations.map((location, index) => {
+                            const lat = location.latitude;
+                            const lng = location.longitude;
                             return (
-                                <AdvancedMarker key={index} position={location} onClick={() => changeOpenState(index)}>
+                                <AdvancedMarker key={index} position={{lat, lng}} onClick={() => changeOpenState(index)}>
                                     <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                                    {open[index] && <InfoWindow key={index} position={location} onCloseClick={() => changeOpenState(index)}>
-                                        {location.description}
+                                    {open[index] && <InfoWindow key={index} position={{lat, lng}} onCloseClick={() => changeOpenState(index)}>
+                                        <div className="leading-loose bg-transparent">
+                                            {location.name}
+                                            {location.description}
+                                            <p className="underline shadow-lg">
+                                                {location.point}ポイント
+                                            </p>
+                                        </div>
                                     </InfoWindow>}
                                 </AdvancedMarker>
                             );
-                        }
-                    })}
-                </Map>
-            </APIProvider>
+
+                        })}
+                    </Map>
+                </APIProvider>
+                )}
 
 
             <div className="form-check">
