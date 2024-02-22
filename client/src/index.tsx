@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./firebaseSetting";
 import { FirebaseAuthProvider } from "./providers/FirebaseAuth";
+import { APIUserDataProvider } from "./providers/APIUserData";
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
@@ -14,7 +15,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <FirebaseAuthProvider>
-        <App />
+        <APIUserDataProvider>
+          <App />
+        </APIUserDataProvider>
       </FirebaseAuthProvider>
     </BrowserRouter>
   </React.StrictMode>
