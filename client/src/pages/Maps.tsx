@@ -73,9 +73,13 @@ const Maps = () => {
                                 <AdvancedMarker key={index} position={{lat, lng}} onClick={() => changeOpenState(index)}>
                                     <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
                                     {open[index] && <InfoWindow key={index} position={{lat, lng}} onCloseClick={() => changeOpenState(index)}>
-                                        <>
+                                        <div className="leading-loose bg-transparent">
+                                            {location.name}
                                             {location.description}
-                                        </>
+                                            <p className="underline shadow-lg">
+                                                {location.point}ポイント
+                                            </p>
+                                        </div>
                                     </InfoWindow>}
                                 </AdvancedMarker>
                             );
