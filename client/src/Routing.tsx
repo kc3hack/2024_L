@@ -17,7 +17,7 @@ const Routing = () => {
   const user = useFirebaseAuthContext();
 
   // user認証が必要なページはここに追加してください。
-  const protectedRoutes = ["/", "/maps"];
+  const protectedRoutes = ["/", "/maps", "/rank"];
 
   useEffect(() => {
     if (protectedRoutes.includes(location.pathname) && !user) {
