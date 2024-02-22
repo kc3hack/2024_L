@@ -60,7 +60,7 @@ const Maps = () => {
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
 
     return (
-        <div className="w-screen" style={{ backgroundImage: "url(/home_bg1.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+        <div className="w-screen" style={{ backgroundImage: "url(/home_bg.jpg)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
             <div className="flex flex-col items-center justify-center h-screen">
                 {isLoading ? (
                     <div>Loading...</div>
