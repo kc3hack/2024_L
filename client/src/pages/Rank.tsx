@@ -1,6 +1,6 @@
 const Rank = () => {
     return (
-        <div className="w-screen" style={{ backgroundImage: "url(/background.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+        <div className="w-screen" style={{ backgroundImage: "url(/home_bg2.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
             <div className="font-black font-mono text-center">
                 <div className="text-2xl items-center animate-tracking-in-expand">
                     あなたのランクは・・・
@@ -11,6 +11,7 @@ const Rank = () => {
                 <div className="flex justify-center items-center mt-8 animate-text-focus-in">
                     <img src="trophy.png" alt="Trophy" className="w-32 h-32"></img>
                 </div>
+                あつめた関西ポイント：1000pt
             </div>
         </div>
     );
