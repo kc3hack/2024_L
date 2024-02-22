@@ -61,7 +61,7 @@ export const APIUserDataProvider = ({ children }: { children: ReactNode }) => {
             return { data: null };
           });
 
-        setUserData(data.data.user);
+        setUserData(data?.data.user);
       };
       fetchUserData();
     }
