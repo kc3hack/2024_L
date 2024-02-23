@@ -6,6 +6,10 @@ class Api::V1::UsersController < Api::ApiController
     render json: { status: "error", data: { error: error, message: error.message } }, status: :unauthorized
   end
 
+  def show
+    render json: { status: "success", data: { user: current_user } }, status: :ok
+  end
+
   def create
     token = request.headers["Authorization"]&.split("Bearer ")&.last
     raise FirebaseAuthenticator::InvalidTokenError.new("No token") unless token
