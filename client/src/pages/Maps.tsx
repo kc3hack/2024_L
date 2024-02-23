@@ -60,7 +60,7 @@ const Maps = () => {
     const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => setSelected((event.target as HTMLInputElement).value);
 
     return (
-        <div className="w-screen" style={{ backgroundImage: "url(/home_bg.jpg)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+        <div className="w-screen" style={{ backgroundImage: "url(/home_bg2.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
             <div className="flex flex-col items-center justify-center h-screen">
                 {isLoading ? (
                     <div>Loading...</div>
@@ -90,12 +90,13 @@ const Maps = () => {
                     </APIProvider>
                 )}
 
-
-                <div className="form-check">
-                    <RadioGroup defaultValue={"all"} onChange={changeValue}>
-                        <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
-                        <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
-                    </RadioGroup>
+                <div className="w-auto bg-white rounded-md shadow-lg p-auto">
+                    <div className="form-check">
+                        <RadioGroup defaultValue={"all"} onChange={changeValue}>
+                            <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
+                            <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
+                        </RadioGroup>
+                    </div>
                 </div>
             </div>
         </div>

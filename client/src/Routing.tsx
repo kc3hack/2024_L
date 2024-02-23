@@ -7,6 +7,7 @@ import { useFirebaseAuthContext } from "./providers/FirebaseAuth";
 import Welcome from "./pages/Welcome";
 import Maps from "./pages/Maps";
 import Home from "./pages/Home";
+import Rank from "./pages/Rank";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 
@@ -16,7 +17,7 @@ const Routing = () => {
   const user = useFirebaseAuthContext();
 
   // user認証が必要なページはここに追加してください。
-  const protectedRoutes = ["/", "/maps"];
+  const protectedRoutes = ["/", "/maps", "/rank"];
 
   useEffect(() => {
     if (protectedRoutes.includes(location.pathname) && !user) {
@@ -31,6 +32,7 @@ const Routing = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/maps" element={<Maps />} />
+      <Route path="/rank" element={<Rank />} />
     </Routes>
   );
 };
