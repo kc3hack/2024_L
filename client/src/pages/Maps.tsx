@@ -24,7 +24,7 @@ const Maps = () => {
         point: number,
     }[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [pos, setPos] = useState({
+    const [currentPosition, setcurrentPosition] = useState({
         lat: 34.841928,
         lng: 135.705585
     });
@@ -65,19 +65,19 @@ const Maps = () => {
                 <div>Loading...</div>
             ) : (
                 <APIProvider apiKey={API}>
-                    <Map defaultCenter={pos} mapId={mapId} style={containerStyle} defaultZoom={18} >
-                        <AdvancedMarker position={pos} draggable onClick={() => setOpenCp(true)} onDrag={
+                    <Map defaultCenter={currentPosition} mapId={mapId} style={containerStyle} defaultZoom={18} >
+                        <AdvancedMarker position={currentPosition} draggable onClick={() => setOpenCp(true)} onDrag={
                             function(e){
                                 const lat_t = e.latLng?.lat();
                                 const lng_t = e.latLng?.lng();
                                 if(typeof lat_t === "number" && typeof lng_t === "number"){
-                                    setPos({ ...pos, lat: lat_t, lng: lng_t});
+                                    setcurrentPosition({ ...currentPosition, lat: lat_t, lng: lng_t});
                                 }
                         }}>
                             <Pin background={"black"} borderColor={"white"} scale={2} />
-                            {openCp && <InfoWindow position={pos} onCloseClick={() => setOpenCp(false)}>
+                            {openCp && <InfoWindow position={currentPosition} onCloseClick={() => setOpenCp(false)}>
                                 <div className="leading-loose bg-transparent">
-                                    {pos.lat}, {pos.lng}
+                                    {currentPosition.lat}, {currentPosition.lng}
                                 </div>
                             </InfoWindow>}
                         </AdvancedMarker>
