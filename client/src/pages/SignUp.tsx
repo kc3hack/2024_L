@@ -12,6 +12,7 @@ const api = axios.create({
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ const SignUp = () => {
 
       const token = await getIdToken(userCrediential.user);
       // api通信
-      const name = '';
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -62,6 +62,19 @@ const SignUp = () => {
                       placeholder="メールアドレス"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-10">
+                  <div className="relative">
+                    <input
+                      className="w-full p-2 border rounded-md transition-colors duration-200 focus:outline-none bg-gray-200 focus:border-orange-500"
+                      name="name"
+                      type="name"
+                      placeholder="ニックネーム"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                 </div>
