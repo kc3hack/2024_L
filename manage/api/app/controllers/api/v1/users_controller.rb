@@ -1,7 +1,7 @@
 require "firebase_authenticator.rb"
 
 class Api::V1::UsersController < Api::ApiController
-  skip_before_action :authenticate_user, only: [:create]
+  skip_before_action :authenticate_user, only: [:create, :update]
   rescue_from FirebaseAuthenticator::InvalidTokenError do |error|
     render json: { status: "error", data: { error: error, message: error.message } }, status: :unauthorized
   end
@@ -22,9 +22,18 @@ class Api::V1::UsersController < Api::ApiController
     end
   end
 
+  def update
+    user = User.find(params[:id])
+    if user.update(user_params)
+      render json: { status: "success", data: { user: user } }, status: :ok
+    else
+      render json: { status: "success", data: { error: user.errors } }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:name)
+    params.require(:user).permit(:name, :point)
   end
 end
