@@ -4,6 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MapIcon from "@mui/icons-material/Map";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import HomeIcon from "@mui/icons-material/Home";
+import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 
 const Footer = () => {
   return (
@@ -20,6 +21,9 @@ const Footer = () => {
           </Link>
           <Link to="/rank">
           <EmojiEventsIcon fontSize="large" className="ml-8" />
+          </Link>
+          <Link to="/ranking">
+            <GroupsOutlinedIcon fontSize="large" className="ml-8" />
           </Link>
           <AccountCircleIcon fontSize="large" className="ml-8" />
         </div>
