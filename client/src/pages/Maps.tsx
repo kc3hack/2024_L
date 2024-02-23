@@ -113,7 +113,7 @@ const Maps = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        
     );
 };
 export default Maps;
