@@ -59,6 +59,11 @@ const Maps = () => {
         return {lat: position.latitude, lng: position.longitude};
     };
 
+    const [currentPosition, setCurrentPosition] = useState<CurrentPosition>({
+        latitude: 34.841928,
+        longitude: 135.705585
+    });
+
     // マーカーを取得
     useEffect(() => {
         getMarkers().then((markers) => {
@@ -68,10 +73,6 @@ const Maps = () => {
         });
     }, []);
 
-    const [currentPosition, setcurrentPosition] = useState<CurrentPosition>({
-        latitude: 34.841928,
-        longitude: 135.705585
-    });
 
     //ユーザが取得済みのマーカーを取得
     useEffect(() => {
@@ -103,9 +104,10 @@ const Maps = () => {
                 {GOOGLE_MAP_KEY && <APIProvider apiKey={GOOGLE_MAP_KEY}>
                     <Map defaultCenter={buildLatLng(currentPosition)} mapId={GOOGLE_MAP_ID} style={containerStyle}
                          defaultZoom={18}>
-                        <MarkerComponent marker={currentPosition} draggable={true} background="black" scale={2}/>
+                        <MarkerComponent marker={currentPosition} draggable={true} background={"black"} scale={2}
+                                         setPosition={setCurrentPosition}/>
                         {selectedMarkers.map((marker, index) => (
-                            <MarkerComponent key={index} marker={marker} background="blue"/>
+                            <MarkerComponent key={index} marker={marker} background={"blue"}/>
                         ))}
                     </Map>
                 </APIProvider>}
@@ -120,15 +122,23 @@ type MarkerComponentProps = {
     background: string,
     scale?: number,
     draggable?: boolean,
+    setPosition?: React.Dispatch<React.SetStateAction<CurrentPosition>>;
 };
-const MarkerComponent: React.FC<MarkerComponentProps> = ({marker, background, draggable = false, scale}) => {
+const MarkerComponent: React.FC<MarkerComponentProps> = ({
+                                                             marker,
+                                                             background,
+                                                             draggable = false,
+                                                             scale,
+                                                             setPosition
+                                                         }) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleDrag = (e: google.maps.MapMouseEvent) => {
-        if (!draggable || e.latLng === null) {
+        if (!draggable || e.latLng === null || !setPosition) {
             return;
         }
         marker.latitude = e.latLng.lat();
         marker.longitude = e.latLng.lng();
+        setPosition({latitude: marker.latitude, longitude: marker.longitude});
     };
 
     return (
