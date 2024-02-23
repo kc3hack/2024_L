@@ -1,30 +1,60 @@
+import { useNavigate } from "react-router-dom";
+
+import { useFirstPosition } from "@/hook/firstPosition";
+
 const Map = () => {
+  const navigate = useNavigate();
+  const { setFirstPosition } = useFirstPosition();
+
   const placeHyogo = () => {
-    console.log("placeHyogo");
+    setFirstPosition({ latitude: 34.6913, longitude: 135.183, defaultZoom: 9 });
+    navigate("/maps");
   };
 
   const placeWakayama = () => {
-    console.log("placeWakayama");
+    setFirstPosition({
+      latitude: 34.2304,
+      longitude: 135.167,
+      defaultZoom: 10,
+    });
+    navigate("/maps");
   };
 
   const placeShiga = () => {
-    console.log("placeShiga");
+    setFirstPosition({ latitude: 35.215, longitude: 136.138, defaultZoom: 10 });
+    navigate("/maps");
   };
 
   const placeMie = () => {
-    console.log("placeMie");
+    setFirstPosition({ latitude: 34.343, longitude: 136.403, defaultZoom: 10 });
+    navigate("/maps");
   };
 
   const placeNara = () => {
-    console.log("placeNara");
+    setFirstPosition({
+      latitude: 34.6851,
+      longitude: 135.804,
+      defaultZoom: 10,
+    });
+    navigate("/maps");
   };
 
   const placeOsaka = () => {
-    console.log("placeOsaka");
+    setFirstPosition({
+      latitude: 34.6937,
+      longitude: 135.502,
+      defaultZoom: 10,
+    });
+    navigate("/maps");
   };
 
   const placeKyoto = () => {
-    console.log("placeKyoto");
+    setFirstPosition({
+      latitude: 35.0116,
+      longitude: 135.768,
+      defaultZoom: 10,
+    });
+    navigate("/maps");
   };
 
   const windowWidth = window.innerWidth;

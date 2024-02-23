@@ -9,6 +9,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import axios from "axios";
 import { useAPIUserDataContext } from "@/providers/APIUserData";
+import { useFirstPosition } from "@/hook/firstPosition";
 import { GOOGLE_MAP_ID, GOOGLE_MAP_KEY, API_URL } from "@/config";
 
 //axiosのインスタンスを作成
@@ -36,7 +37,7 @@ type Marker = BaseMarker & {
   description?: string;
 };
 
-type CurrentPosition = BaseMarker;
+export type CurrentPosition = BaseMarker;
 
 const getMarkers = async () => {
   const response = await api.get("/api/v1/markers");
@@ -58,15 +59,18 @@ const Maps = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const apiUser = useAPIUserDataContext();
   const [selected, setSelected] = useState<SelectedOption>("all");
-
+  const { getFirstPosition } = useFirstPosition();
   const buildLatLng = (position: BaseMarker): google.maps.LatLngLiteral => {
     return { lat: position.latitude, lng: position.longitude };
   };
 
+  const firstPosition = getFirstPosition();
+
   const [currentPosition, setCurrentPosition] = useState<CurrentPosition>({
-    latitude: 34.841928,
-    longitude: 135.705585,
+    latitude: firstPosition.latitude,
+    longitude: firstPosition.longitude,
   });
+  const [zoom, setZoom] = useState<number>(firstPosition.defaultZoom);
 
   // マーカーを取得
   useEffect(() => {
@@ -116,7 +120,8 @@ const Maps = () => {
               defaultCenter={buildLatLng(currentPosition)}
               mapId={GOOGLE_MAP_ID}
               style={containerStyle}
-              defaultZoom={18}
+              defaultZoom={zoom}
+              onZoomChanged={(e) => setZoom(e.detail.zoom)}
             >
               <MarkerComponent
                 marker={currentPosition}
@@ -167,6 +172,7 @@ type MarkerComponentProps = {
   scale?: number;
   draggable?: boolean;
   setPosition?: React.Dispatch<React.SetStateAction<CurrentPosition>>;
+  zoom?: number;
 };
 
 const MarkerComponent: React.FC<MarkerComponentProps> = ({
@@ -175,8 +181,10 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
   scale,
   draggable = false,
   setPosition,
+  zoom,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setFirstPosition } = useFirstPosition();
   const handleDrag = (e: google.maps.MapMouseEvent) => {
     if (!draggable || e.latLng === null || !setPosition) {
       return;
@@ -184,6 +192,11 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
     marker.latitude = e.latLng.lat();
     marker.longitude = e.latLng.lng();
     setPosition({ latitude: marker.latitude, longitude: marker.longitude });
+    setFirstPosition({
+      latitude: marker.latitude,
+      longitude: marker.longitude,
+      defaultZoom: zoom,
+    });
   };
 
   return (
