@@ -6,6 +6,10 @@ class Api::V1::UsersController < Api::ApiController
     render json: { status: "error", data: { error: error, message: error.message } }, status: :unauthorized
   end
 
+  def index
+    render json: { status: "success", data: { users: User.all } }, status: :ok
+  end
+
   def show
     render json: { status: "success", data: { user: current_user } }, status: :ok
   end
