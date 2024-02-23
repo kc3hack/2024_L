@@ -116,6 +116,7 @@ const Maps = () => {
                         })}
                     </Map>
                 </APIProvider>}
+                <MarkerFilter selected={selected} setSelected={setSelected} />
             </div>
         </div>
     );
