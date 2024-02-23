@@ -67,13 +67,13 @@ const Maps = () => {
                 <APIProvider apiKey={API}>
                     <Map defaultCenter={currentPosition} mapId={mapId} style={containerStyle} defaultZoom={18} >
                         <AdvancedMarker position={currentPosition} draggable onClick={() => setOpenCp(true)} onDrag={
-                            function(e){
+                            function (e) {
                                 const lat_t = e.latLng?.lat();
                                 const lng_t = e.latLng?.lng();
-                                if(typeof lat_t === "number" && typeof lng_t === "number"){
-                                    setcurrentPosition({ ...currentPosition, lat: lat_t, lng: lng_t});
+                                if (typeof lat_t === "number" && typeof lng_t === "number") {
+                                    setcurrentPosition({ ...currentPosition, lat: lat_t, lng: lng_t });
                                 }
-                        }}>
+                            }}>
                             <Pin background={"black"} borderColor={"white"} scale={2} />
                             {openCp && <InfoWindow position={currentPosition} onCloseClick={() => setOpenCp(false)}>
                                 <div className="leading-loose bg-transparent">
@@ -99,21 +99,20 @@ const Maps = () => {
                                 </AdvancedMarker>
                             );
 
-                            })}
-                        </Map>
-                    </APIProvider>
-                )}
+                        })}
+                    </Map>
+                </APIProvider>
+            )}
 
-                <div className="w-auto bg-white rounded-md shadow-lg p-auto">
-                    <div className="form-check">
-                        <RadioGroup defaultValue={"all"} onChange={changeValue}>
-                            <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
-                            <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
-                        </RadioGroup>
-                    </div>
+            <div className="w-auto bg-white rounded-md shadow-lg p-auto">
+                <div className="form-check">
+                    <RadioGroup defaultValue={"all"} onChange={changeValue}>
+                        <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
+                        <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
+                    </RadioGroup>
                 </div>
             </div>
-        
+        </div>
     );
 };
 export default Maps;
