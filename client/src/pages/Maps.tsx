@@ -12,7 +12,7 @@ const api = axios.create({
 const Maps = () => {
     const API = `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
     const mapId = `${process.env.REACT_APP_GOOGLE_MAPS_ID}`;
-    const [locations, setLocations] = useState<{
+    const [markers, setMarkers] = useState<{
         id: number,
         name: string,
         description: string,
@@ -38,7 +38,7 @@ const Maps = () => {
         const apiGet = async () => {
             const responce = await api.get('/api/v1/markers');
             const locations_api = responce.data.data.markers;
-            setLocations(locations_api);
+            setMarkers(locations_api);
         };
         apiGet();
         setIsLoading(false);
@@ -46,7 +46,7 @@ const Maps = () => {
 
 
 
-    const [open, setOpen] = useState(Array(locations.length).fill(false));
+    const [open, setOpen] = useState(Array(markers.length).fill(false));
     const [openCp, setOpenCp] = useState(false);//現在地ピンの情報ウィンドウが開いてるかどうかの判定
 
     const changeOpenState = (index: number) => {
@@ -81,18 +81,18 @@ const Maps = () => {
                                 </div>
                             </InfoWindow>}
                         </AdvancedMarker>
-                        {Array.isArray(locations) && locations.map((location, index) => {
-                            const lat = location.latitude;
-                            const lng = location.longitude;
+                        {Array.isArray(markers) && markers.map((marker, index) => {
+                            const lat = marker.latitude;
+                            const lng = marker.longitude;
                             return (
                                 <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
                                     <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
                                     {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
                                         <div className="leading-loose bg-transparent">
-                                            {location.name}
-                                            {location.description}
+                                            {marker.name}
+                                            {marker.description}
                                             <p className="underline shadow-lg">
-                                                {location.point}ポイント
+                                                {marker.point}ポイント
                                             </p>
                                         </div>
                                     </InfoWindow>}
