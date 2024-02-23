@@ -18,7 +18,9 @@ const Footer = () => {
           <Link to="/maps">
             <MapIcon fontSize="large" className="ml-8" />
           </Link>
+          <Link to="/rank">
           <EmojiEventsIcon fontSize="large" className="ml-8" />
+          </Link>
           <AccountCircleIcon fontSize="large" className="ml-8" />
         </div>
         <br />
