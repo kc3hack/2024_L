@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Radio, RadioGroup, FormControlLabel} from "@mui/material";
 import {APIProvider, Map, AdvancedMarker, Pin, InfoWindow,} from "@vis.gl/react-google-maps"
 import axios from "axios";
-import {useAPIUserData} from "@/providers/APIUserData";
+import {useAPIUserDataContext} from "@/providers/APIUserData";
 import {GOOGLE_MAP_ID, GOOGLE_MAP_KEY, API_URL} from "@/config";
 
 //axiosのインスタンスを作成
@@ -52,7 +52,7 @@ const Maps = () => {
     const [selectedMarkers, setSelectedMarkers] = useState<Marker[]>([]);
     const [markers, setMarkers] = useState<Marker[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const apiUser = useAPIUserData();
+    const apiUser = useAPIUserDataContext();
     const [selected, setSelected] = useState<SelectedOption>("all");
 
     const buildLatLng = (position: BaseMarker): google.maps.LatLngLiteral => {

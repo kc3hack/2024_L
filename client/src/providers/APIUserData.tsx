@@ -26,7 +26,7 @@ const APIUserData = createContext<APIUserDataType | null | undefined>(
   undefined
 );
 
-export const useAPIUserData = () => {
+export const useAPIUserDataContext = () => {
   const context = useContext(APIUserData);
   if (context === undefined) {
     throw new Error(
