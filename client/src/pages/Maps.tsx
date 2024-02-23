@@ -102,16 +102,21 @@ const Maps = () => {
         }}>
             <div className="flex flex-col items-center justify-center h-screen">
                 {GOOGLE_MAP_KEY && <APIProvider apiKey={GOOGLE_MAP_KEY}>
-                    <Map defaultCenter={buildLatLng(currentPosition)} mapId={GOOGLE_MAP_ID} style={containerStyle}
-                         defaultZoom={18}>
+                    <Map defaultCenter={buildLatLng(currentPosition)} mapId={GOOGLE_MAP_ID} style={containerStyle} defaultZoom={18} >
                         <MarkerComponent marker={currentPosition} draggable={true} background={"black"} scale={2}
-                                         setPosition={setCurrentPosition}/>
-                        {selectedMarkers.map((marker, index) => (
-                            <MarkerComponent key={index} marker={marker} background={"blue"}/>
-                        ))}
+                            setPosition={setCurrentPosition} />
+                        {selectedMarkers.map((marker, index) => {
+                            if(marker.point <= 10){
+                                return <MarkerComponent key={index} marker={marker} background={"#ffc0cb"} />;
+                            } else if(marker.point <= 50){
+                                return <MarkerComponent key={index} marker={marker} background={"#ff8c00"} />;
+                            } else if(marker.point <= 100){
+                                return <MarkerComponent key={index} marker={marker} background={"#ff0000"} />;
+                            }
+                        })}
                     </Map>
                 </APIProvider>}
-                <MarkerFilter selected={selected} setSelected={setSelected}/>
+                <MarkerFilter selected={selected} setSelected={setSelected} />
             </div>
         </div>
     );
@@ -124,13 +129,14 @@ type MarkerComponentProps = {
     draggable?: boolean,
     setPosition?: React.Dispatch<React.SetStateAction<CurrentPosition>>;
 };
+
 const MarkerComponent: React.FC<MarkerComponentProps> = ({
-                                                             marker,
-                                                             background,
-                                                             draggable = false,
-                                                             scale,
-                                                             setPosition
-                                                         }) => {
+    marker,
+    background,
+    scale,
+    draggable = false,
+    setPosition
+}) => {
     const [isOpen, setIsOpen] = useState(false);
     const handleDrag = (e: google.maps.MapMouseEvent) => {
         if (!draggable || e.latLng === null || !setPosition) {
@@ -138,17 +144,17 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
         }
         marker.latitude = e.latLng.lat();
         marker.longitude = e.latLng.lng();
-        setPosition({latitude: marker.latitude, longitude: marker.longitude});
+        setPosition({ latitude: marker.latitude, longitude: marker.longitude });
     };
 
     return (
-        <AdvancedMarker position={{lat: marker.latitude, lng: marker.longitude}} draggable={draggable}
-                        onDrag={handleDrag}
-                        onClick={() => setIsOpen(!isOpen)}
+        <AdvancedMarker position={{ lat: marker.latitude, lng: marker.longitude }} draggable={draggable}
+            onDragEnd={handleDrag}
+            onClick={() => setIsOpen(!isOpen)}
         >
-            <Pin background={background} borderColor={"white"} glyphColor={"white"} scale={scale}/>
-            {isOpen && <InfoWindow position={{lat: marker.latitude, lng: marker.longitude}}
-                                   onCloseClick={() => setIsOpen(!isOpen)}
+            <Pin background={background} borderColor={"white"} glyphColor={"white"} scale={scale} />
+            {isOpen && <InfoWindow position={{ lat: marker.latitude, lng: marker.longitude }}
+                onCloseClick={() => setIsOpen(!isOpen)}
             >
                 <div className="leading-loose bg-transparent">
                     {
@@ -170,23 +176,24 @@ const MarkerComponent: React.FC<MarkerComponentProps> = ({
     );
 };
 
-
 type MarkerFilterProps = {
     selected: SelectedOption;
     setSelected: React.Dispatch<React.SetStateAction<SelectedOption>>;
 };
-const MarkerFilter: React.FC<MarkerFilterProps> = ({setSelected}) => {
+
+const MarkerFilter: React.FC<MarkerFilterProps> = ({ setSelected }) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setSelected(event.target.value as SelectedOption);
 
     return (
-        <div className="form-check">
-            <RadioGroup defaultValue={"all"} onChange={handleChange}>
-                <FormControlLabel value={"all"} control={<Radio/>} label="すべて表示"/>
-                <FormControlLabel value={"notreached"} control={<Radio/>} label="未到達のみ表示"/>
-            </RadioGroup>
+        <div className="w-auto bg-white rounded-md shadow-lg p-auto">
+            <div className="form-check">
+                <RadioGroup defaultValue={"all"} onChange={handleChange}>
+                    <FormControlLabel value={"all"} control={<Radio />} label="すべて表示" />
+                    <FormControlLabel value={"notreached"} control={<Radio />} label="未到達のみ表示" />
+                </RadioGroup>
+            </div>
         </div>
     );
 };
-
 
 export default Maps;
