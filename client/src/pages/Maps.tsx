@@ -1,6 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { getAuth } from 'firebase/auth';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps"
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import { API_URL } from '../config';
@@ -49,7 +47,7 @@ const Maps = () => {
 
 
     const [open, setOpen] = useState(Array(locations.length).fill(false));
-    const [open_cu, setOpen_cu] = useState(false);
+    const [openCp, setOpenCp] = useState(false);//現在地ピンの情報ウィンドウが開いてるかどうかの判定
 
     const changeOpenState = (index: number) => {
         const newOpenState = [...open];
@@ -68,7 +66,7 @@ const Maps = () => {
             ) : (
                 <APIProvider apiKey={API}>
                     <Map defaultCenter={pos} mapId={mapId} style={containerStyle} defaultZoom={18} >
-                        <AdvancedMarker position={pos} draggable onClick={() => setOpen_cu(true)} onDrag={
+                        <AdvancedMarker position={pos} draggable onClick={() => setOpenCp(true)} onDrag={
                             function(e){
                                 const lat_t = e.latLng?.lat();
                                 const lng_t = e.latLng?.lng();
@@ -77,7 +75,7 @@ const Maps = () => {
                                 }
                         }}>
                             <Pin background={"black"} borderColor={"white"} scale={2} />
-                            {open_cu && <InfoWindow position={pos} onCloseClick={() => setOpen_cu(false)}>
+                            {openCp && <InfoWindow position={pos} onCloseClick={() => setOpenCp(false)}>
                                 <div className="leading-loose bg-transparent">
                                     {pos.lat}, {pos.lng}
                                 </div>
