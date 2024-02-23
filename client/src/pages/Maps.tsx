@@ -84,21 +84,52 @@ const Maps = () => {
                         {Array.isArray(markers) && markers.map((marker, index) => {
                             const lat = marker.latitude;
                             const lng = marker.longitude;
-                            return (
-                                <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
-                                    <Pin background={"blue"} borderColor={"white"} glyphColor={"white"} />
-                                    {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
-                                        <div className="leading-loose bg-transparent">
-                                            {marker.name}
-                                            {marker.description}
-                                            <p className="underline shadow-lg">
-                                                {marker.point}ポイント
-                                            </p>
-                                        </div>
-                                    </InfoWindow>}
-                                </AdvancedMarker>
-                            );
-
+                            if(marker.point <= 10){
+                                return (
+                                    <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
+                                        <Pin background={"#ffc0cb"} borderColor={"white"} glyphColor={"white"} />
+                                        {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
+                                            <div className="leading-loose bg-transparent">
+                                                {marker.name}
+                                                {marker.description}
+                                                <p className="underline shadow-lg">
+                                                    {marker.point}ポイント
+                                                </p>
+                                            </div>
+                                        </InfoWindow>}
+                                    </AdvancedMarker>
+                                );
+                            } else if(marker.point <= 50){
+                                return (
+                                    <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
+                                        <Pin background={"#ff7f50"} borderColor={"white"} glyphColor={"black"} />
+                                        {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
+                                            <div className="leading-loose bg-transparent">
+                                                {marker.name}
+                                                {marker.description}
+                                                <p className="underline shadow-lg">
+                                                    {marker.point}ポイント
+                                                </p>
+                                            </div>
+                                        </InfoWindow>}
+                                    </AdvancedMarker>
+                                );
+                            } else{
+                                return (
+                                    <AdvancedMarker key={index} position={{ lat, lng }} onClick={() => changeOpenState(index)}>
+                                        <Pin background={"#dc143c"} borderColor={"white"} glyphColor={"white"} />
+                                        {open[index] && <InfoWindow key={index} position={{ lat, lng }} onCloseClick={() => changeOpenState(index)}>
+                                            <div className="leading-loose bg-transparent">
+                                                {marker.name}
+                                                {marker.description}
+                                                <p className="underline shadow-lg">
+                                                    {marker.point}ポイント
+                                                </p>
+                                            </div>
+                                        </InfoWindow>}
+                                    </AdvancedMarker>
+                                );
+                            }
                         })}
                     </Map>
                 </APIProvider>
