@@ -57,8 +57,14 @@ export const APIUserDataProvider = ({ children }: { children: ReactNode }) => {
         const { data } = await api
           .get(`/api/v1/users/${user.uid}`, header)
           .catch(() => {
-            alert("ユーザーデータの取得に失敗しました");
-            return { data: null };
+            console.log("ユーザーデータの取得に失敗しました");
+            return {
+              data: {
+                data: {
+                  user: null,
+                },
+              },
+            };
           });
 
         setUserData(data?.data.user);
