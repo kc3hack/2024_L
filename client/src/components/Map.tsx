@@ -42,7 +42,7 @@ const Map = () => {
         xmlns="http://www.w3.org/2000/svg"
         width={adjustWidth()}
         height="100%"
-        viewBox="-13 0 600 600"
+        viewBox="-13 100 600 600"
       >
         <g
           // inkscape:groupmode="layer"
