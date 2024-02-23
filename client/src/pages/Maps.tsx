@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, } from "@vis.gl/react-google-maps"
+import React, {useEffect, useState} from "react";
+import {Radio, RadioGroup, FormControlLabel} from "@mui/material";
+import {APIProvider, Map, AdvancedMarker, Pin, InfoWindow,} from "@vis.gl/react-google-maps"
 import axios from "axios";
-import { useAPIUserData } from "@/providers/APIUserData";
-import { GOOGLE_MAP_ID, GOOGLE_MAP_KEY, API_URL } from "@/config";
+import {useAPIUserData} from "@/providers/APIUserData";
+import {GOOGLE_MAP_ID, GOOGLE_MAP_KEY, API_URL} from "@/config";
 
 //axiosのインスタンスを作成
 const api = axios.create({
@@ -56,7 +56,7 @@ const Maps = () => {
     const [selected, setSelected] = useState<SelectedOption>("all");
 
     const buildLatLng = (position: BaseMarker): google.maps.LatLngLiteral => {
-        return { lat: position.latitude, lng: position.longitude };
+        return {lat: position.latitude, lng: position.longitude};
     };
 
     const [currentPosition, setCurrentPosition] = useState<CurrentPosition>({
