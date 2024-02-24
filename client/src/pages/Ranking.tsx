@@ -51,61 +51,50 @@ const Ranking = () => {
   if (ranking.length === 0) return <p>Loading...</p>;
 
   return (
-    <>
-      <div
-        className="w-screen mb-12"
+
+    <div className="w-screen flex justify-center items-center"
+      style={{
+        backgroundImage: "url(/note.png)",
+        backgroundSize: 'cover',
+        width: '100%',
+        height: '100vh',
+        backgroundPosition: 'center'
+      }}>
+      <div className="w-screen flex justify-center items-center"
         style={{
-          backgroundSize: "cover",
-          width: "100%",
-          height: "100vh",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="items-center mt-8">
-          <h1 className="text-2xl font-bold mb-4 text-center">ランキング</h1>
-          <div className="flex items-center justify-center">
-            <table className="table-auto bg-white shadow-md rounded-lg">
-              <thead>
-                <tr>
-                  <th className="px-4 py-2 bg-blue-500 text-white rounded-tl-lg">
-                    Rank
-                  </th>
-                  <th className="px-4 py-2 bg-blue-500 text-white">Name</th>
-                  <th className="px-4 py-2 bg-blue-500 text-white rounded-tr-lg">
-                    Point
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {ranking.map((user: any, index: number) => (
-                  <tr
-                    key={user.id}
-                    className={index % 2 === 0 ? "bg-gray-100" : ""}
-                  >
-                    <td
-                      className={`border px-4 py-2 ${
-                        index === 0 ? "rounded-tl-lg" : ""
-                      } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
-                    >
-                      {index + 1}位
-                    </td>
-                    <td className="border px-4 py-2">{user.name}</td>
-                    <td
-                      className={`border px-4 py-2 ${
-                        index === 0 ? "rounded-tl-lg" : ""
-                      } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
-                    >
-                      {user.point}pt
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+          backgroundImage: "url(/spring.png)",
+          backgroundSize: 'cover',
+          width: '100%',
+          height: '100vh',
+          backgroundPosition: 'center'
+        }}>
+
+        <tbody>
+          {ranking.map((user: any, index: number) => (
+            <tr
+              key={user.id}
+              className={index % 2 === 0 ? "bg-gray-100" : ""}
+            >
+              <td
+                className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
+                  } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
+              >
+                {index + 1}位
+              </td>
+              <td className="border px-4 py-2 font-bold">{user.name}</td>
+              <td
+                className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
+                  } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
+              >
+                {user.point}pt
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </div>
-    </>
+    </div>
   );
+
 };
 
 export default Ranking;
