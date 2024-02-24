@@ -1,11 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { useAPIUserDataContext } from '@/providers/APIUserData';
-import { API_URL } from '@/config';
-
-const api = axios.create({
-    baseURL: API_URL
-});
 
 const Rank = () => {
     const userData = useAPIUserDataContext();
