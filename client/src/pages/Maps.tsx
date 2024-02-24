@@ -83,8 +83,8 @@ const Maps = () => {
 
   //ユーザが取得済みのマーカーを取得
   useEffect(() => {
-    if (!apiUser) return;
-    getUserMarkers(apiUser.id).then(setUserMarkers);
+    if (!apiUser.userData) return;
+    getUserMarkers(apiUser.userData.id).then(setUserMarkers);
   }, [apiUser]);
 
   useEffect(() => {
