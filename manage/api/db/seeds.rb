@@ -100,6 +100,8 @@ if markers.empty?
   Marker.create(name:"赤目四十八滝",description:"赤目四十八滝は、国指定の特別名勝である渓谷です。大小48の滝が点在し、美しい自然を楽しめます。",latitude:34.5589806,longitude:136.0845481,address:"三重県名張市赤目町長瀬",point:20)
   Marker.create(name:"長谷寺",description:"長谷寺は、西国三十三観音霊場第八番札所である寺院です。十一面観音菩薩を本尊としており、美しい庭園で知られています。",latitude:34.535885,longitude:135.7543587,address:"三重県伊勢市二見町松下10",point:20)
   Marker.create(name:"湯の山温泉",description:"湯の山温泉は、1300年の歴史を持つ温泉街です。肌に優しい湯で知られており、多くの観光客が訪れています。",latitude:35.0164673,longitude:136.4485621,address:"三重県伊賀市湯山",point:10)
+  Marker.create(name:"揖保乃糸資料館そうめんの里",description:"厳選した小麦と赤穂の塩を原料に、そうめん作りに適した豊かな気候風土に育まれてきました。 およそ600年受け継がれる伝統の手延製法で、幾度も熟成を重ねながら、職人が丹精込めて作り上げた播州地方の名品です。",latitude:34.8915228,longitude:134.5665204,address:"兵庫県たつの市神岡町奥村５６",point:100)
+  
   end
 
 user_marker_links = UserMarkerLink.all
