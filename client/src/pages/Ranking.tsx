@@ -53,7 +53,7 @@ const Ranking = () => {
   return (
     <>
       <div
-        className="w-screen"
+        className="w-screen mb-12"
         style={{
           backgroundSize: "cover",
           width: "100%",
@@ -61,7 +61,7 @@ const Ranking = () => {
           backgroundPosition: "center",
         }}
       >
-        <div className="items-center mt-10">
+        <div className="items-center mt-8">
           <h1 className="text-2xl font-bold mb-4 text-center">ランキング</h1>
           <div className="flex items-center justify-center">
             <table className="table-auto bg-white shadow-md rounded-lg">
