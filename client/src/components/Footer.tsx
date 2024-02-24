@@ -9,9 +9,7 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 const Footer = () => {
   return (
     <footer>
-      <div className="absolute bottom-0 ">
-        <hr />
-        <br />
+      <div className="absolute bottom-0 bg-white py-5 border-t-8">
         <div className="flex items-center justify-center w-screen">
           <Link to="/">
             <HomeIcon fontSize="large" />
@@ -29,7 +27,6 @@ const Footer = () => {
             <AccountCircleIcon fontSize="large" className="ml-8" />
           </Link>
         </div>
-        <br />
       </div>
     </footer>
   );
