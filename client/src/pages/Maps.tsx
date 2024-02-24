@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
-import {
-  APIProvider,
-  Map,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
-} from "@vis.gl/react-google-maps";
+import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, } from "@vis.gl/react-google-maps"
 import axios from "axios";
 import { useAPIUserDataContext } from "@/providers/APIUserData";
 import { useFirstPosition } from "@/hooks/firstPosition";
@@ -92,9 +86,9 @@ const Maps = () => {
       selected === "all"
         ? markers
         : markers.filter(
-            (marker) =>
-              !userMarkers.some((userMarker) => userMarker.id === marker.id)
-          )
+          (marker) =>
+            !userMarkers.some((userMarker) => userMarker.id === marker.id)
+        )
     );
   }, [selected, markers, userMarkers]);
 
@@ -123,12 +117,11 @@ const Maps = () => {
               defaultZoom={zoom}
               onZoomChanged={(e) => setZoom(e.detail.zoom)}
             >
-              <MarkerComponent
-                marker={currentPosition}
-                draggable={true}
-                background={"black"}
-                scale={2}
+              <CurrentPositionComponent
+                markers={selectedMarkers}
+                currentPosition={currentPosition}
                 setPosition={setCurrentPosition}
+                zoom={zoom}
               />
               {selectedMarkers.map((marker, index) => {
                 if (marker.point <= 10) {
@@ -166,74 +159,108 @@ const Maps = () => {
   );
 };
 
-type MarkerComponentProps = {
-  marker: Marker | CurrentPosition;
-  background: string;
-  scale?: number;
-  draggable?: boolean;
-  setPosition?: React.Dispatch<React.SetStateAction<CurrentPosition>>;
+type CurrentPositionComponentProps = {
+  markers: Marker[],
+  currentPosition: CurrentPosition,
+  setPosition: React.Dispatch<React.SetStateAction<CurrentPosition>>,
   zoom?: number;
+};
+
+const CurrentPositionComponent: React.FC<CurrentPositionComponentProps> = ({
+  markers,
+  currentPosition,
+  setPosition,
+  zoom
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [localMarkers, setLocalMarkers] = useState(markers); // ローカル状態としてマーカーを管理
+  const { setFirstPosition } = useFirstPosition();
+  const apiUser = useAPIUserDataContext();
+
+  function getDistance(lat: number, lng: number) {
+    const dLat = lat - currentPosition.latitude;
+    const dLng = lng - currentPosition.longitude;
+    return Math.sqrt(dLat * dLat + dLng * dLng);
+  };
+
+  const handleDrag = async (e: google.maps.MapMouseEvent) => { // asyncを追加
+    if (e.latLng === null || !setPosition) {
+      return;
+    }
+    const newPosition = { latitude: e.latLng.lat(), longitude: e.latLng.lng() };
+    setPosition(newPosition);
+    setFirstPosition({
+      latitude: newPosition.latitude,
+      longitude: newPosition.longitude,
+      defaultZoom: zoom
+    });
+
+    for (let marker of localMarkers) { // for...of ループを使用
+      if (getDistance(marker.latitude, marker.longitude) < 0.01) {
+        console.log("到達");
+        // API呼び出し等の非同期処理
+        let newPoint = 0;
+        if (apiUser.userData?.point !== undefined) {
+          newPoint = apiUser.userData.point + marker.point;
+        } else {
+          console.log("ポイントあらへんがな");
+        }
+        alert(`${marker.name}に到達しました！\n${marker.point}ポイント獲得しました！`);
+        await api.post("/api/v1/user_marker_links", { user_marker_link: { user_id: apiUser.userData?.id, marker_id: marker.id } });
+        await api.patch(`/api/v1/users/${apiUser.userData?.id}`, { user: { point: newPoint } });
+        // マーカーを削除
+        setLocalMarkers(current => current.filter(m => m.id !== marker.id));
+        apiUser.fetchUserData();
+        break;
+      }
+    }
+  };
+    return (
+      <AdvancedMarker position={{ lat: currentPosition.latitude, lng: currentPosition.longitude }} draggable onClick={() => setIsOpen(!isOpen)}
+        onDragEnd={handleDrag}>
+        <Pin background={"black"} borderColor={"white"} glyphColor={"white"} scale={2} />
+        {isOpen && <InfoWindow position={{ lat: currentPosition.latitude, lng: currentPosition.longitude }}
+          onCloseClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="leading-loose bg-transparent">
+            <div>
+              {currentPosition.latitude}, {currentPosition.longitude}
+            </div>
+          </div>
+        </InfoWindow>}
+      </AdvancedMarker>
+    );
+  };
+
+
+type MarkerComponentProps = {
+  marker: Marker,
+  background: string,
+  scale?: number,
 };
 
 const MarkerComponent: React.FC<MarkerComponentProps> = ({
   marker,
   background,
-  scale,
-  draggable = false,
-  setPosition,
-  zoom,
+  scale
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { setFirstPosition } = useFirstPosition();
-  const handleDrag = (e: google.maps.MapMouseEvent) => {
-    if (!draggable || e.latLng === null || !setPosition) {
-      return;
-    }
-    marker.latitude = e.latLng.lat();
-    marker.longitude = e.latLng.lng();
-    setPosition({ latitude: marker.latitude, longitude: marker.longitude });
-    setFirstPosition({
-      latitude: marker.latitude,
-      longitude: marker.longitude,
-      defaultZoom: zoom,
-    });
-  };
 
   return (
-    <AdvancedMarker
-      position={{ lat: marker.latitude, lng: marker.longitude }}
-      draggable={draggable}
-      onDragEnd={handleDrag}
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      <Pin
-        background={background}
-        borderColor={"white"}
-        glyphColor={"white"}
-        scale={scale}
-      />
-      {isOpen && (
-        <InfoWindow
-          position={{ lat: marker.latitude, lng: marker.longitude }}
-          onCloseClick={() => setIsOpen(!isOpen)}
-        >
-          <div className="leading-loose bg-transparent">
-            {"name" in marker &&
-            "description" in marker &&
-            "point" in marker ? (
-              <div>
-                <p>{marker.name}</p>
-                <p>{marker.description}</p>
-                <p className="underline shadow-lg">{marker.point}ポイント</p>
-              </div>
-            ) : (
-              <div>
-                {marker.latitude}, {marker.longitude}
-              </div>
-            )}
+    <AdvancedMarker position={{ lat: marker.latitude, lng: marker.longitude }} onClick={() => setIsOpen(!isOpen)}>
+      <Pin background={background} borderColor={"white"} glyphColor={"white"} scale={scale} />
+      {isOpen && <InfoWindow position={{ lat: marker.latitude, lng: marker.longitude }}
+        onCloseClick={() => setIsOpen(!isOpen)}>
+        <div className="leading-loose bg-transparent">
+          <div>
+            <p>{marker.name}</p>
+            <p>{marker.description}</p>
+            <p className="underline shadow-lg">
+              {marker.point}ポイント
+            </p>
           </div>
-        </InfoWindow>
-      )}
+        </div>
+      </InfoWindow>}
     </AdvancedMarker>
   );
 };
