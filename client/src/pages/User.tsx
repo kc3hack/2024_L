@@ -21,16 +21,16 @@ const User = () => {
 
     // ユーザデータが取得できたら、名前をセット
     useEffect(() => {
-        if (apiUserData) {
-            setName(apiUserData.name);
+        if (apiUserData.userData) {
+            setName(apiUserData.userData.name);
         }
     }, [apiUserData]);
 
     // ユーザデータ更新APIのリクエストボディの型
     type UpdateUserDataType = {
         user: {
-            name: string,
-        },
+            name: string;
+        };
     };
 
     // ユーザデータ更新APIのリクエストボディを構築
@@ -40,33 +40,38 @@ const User = () => {
                 name: name,
             },
         };
-    }
+    };
     //ユーザデータの更新処理
     const handleUpdate = async () => {
-        if (!window.confirm('ユーザ情報を更新しますか？')) {
+        if (!window.confirm("ユーザ情報を更新しますか？")) {
             return;
         }
 
-        await api.put(`/api/v1/users/${apiUserData?.id}`, buildUpdateUserData(name))
+        await api
+            .put(
+                `/api/v1/users/${apiUserData.userData?.id}`,
+                buildUpdateUserData(name)
+            )
             .then(() => {
-                alert('ユーザ情報の更新に成功しました');
+                alert("ユーザ情報の更新に成功しました");
             })
             .catch(() => {
-                alert('ユーザ情報の更新に失敗しました');
+                alert("ユーザ情報の更新に失敗しました");
             });
+        apiUserData.fetchUserData();
         setEditMode(false);
     };
 
     // キャンセルボタンを押した時の処理
     const handleCancel = () => {
-        setName(apiUserData?.name || "");
+        setName(apiUserData.userData?.name || "");
     };
 
     // ログアウト処理
     const handleSignOut = async () => {
         const auth = getAuth();
         await auth.signOut();
-        navigate('/welcome');
+        navigate("/welcome");
     };
 
     return (
@@ -87,11 +92,14 @@ const User = () => {
                             editMode && handleCancel();
                             setEditMode(!editMode);
                         }}
-                        className={`bg-${editMode ? 'red' : 'blue'}-500 text-white px-3 py-1 rounded-md transition-all duration-300`}
+                        className={`bg-${editMode ? 'red' : 'blue'
+                            }-500 text-white px-3 py-1 rounded-md transition-all duration-300`}
                     >
                         {editMode ? 'キャンセル' : '名前変更'}
                     </button>
-                    <p className="text-lg font-semibold text-purple-500">ポイント: {apiUserData?.point}</p>
+                    <p className="text-lg font-semibold text-purple-500">
+                        ポイント: {apiUserData.userData?.point}
+                    </p>
                     {editMode ? (
                         <button
                             type="button"
@@ -114,8 +122,6 @@ const User = () => {
             </div>
         </div>
     );
-
-
 };
 
 export default User;
