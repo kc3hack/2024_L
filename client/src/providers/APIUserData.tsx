@@ -4,15 +4,12 @@ import {
   useState,
   useEffect,
   ReactNode,
+  useCallback,
 } from "react";
-
 import { useLocation } from "react-router-dom";
-
 import axios from "axios";
-
 import { useFirebaseAuthContext } from "./FirebaseAuth";
 import { API_URL } from "@/config";
-
 import { protectedRoutes } from "@/Routing";
 
 const api = axios.create({
@@ -26,9 +23,13 @@ type APIUserDataType = {
   point: number;
 };
 
-const APIUserData = createContext<APIUserDataType | null | undefined>(
-  undefined
-);
+const APIUserData = createContext<
+  | {
+      userData: APIUserDataType | null | undefined;
+      fetchUserData: () => Promise<void>;
+    }
+  | undefined
+>(undefined);
 
 export const useAPIUserDataContext = () => {
   const context = useContext(APIUserData);
@@ -47,47 +48,38 @@ export const APIUserDataProvider = ({ children }: { children: ReactNode }) => {
     null
   );
 
+  const fetchUserData = useCallback(async () => {
+    if (!protectedRoutes.includes(location.pathname)) return;
+    if (!user) return;
+    const idToken = await user?.getIdToken();
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+    };
+
+    const { data } = await api
+      .get(`/api/v1/users/${user.uid}`, header)
+      .catch(() => {
+        console.log("ユーザーデータの取得に失敗しました");
+        return { data: { data: { user: null } } };
+      });
+
+    setUserData(data?.data.user);
+  }, [user, location.pathname]);
+
   useEffect(() => {
-    // 認証が必要なページでない場合は、ユーザーデータを取得しない
-    if (!protectedRoutes.includes(location.pathname)) {
-      return;
-    }
-
-    if (user) {
-      const fetchUserData = async () => {
-        const idToken = await user?.getIdToken();
-
-        const header = {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
-          },
-        };
-
-        const { data } = await api
-          .get(`/api/v1/users/${user.uid}`, header)
-          .catch(() => {
-            console.log("ユーザーデータの取得に失敗しました");
-            return {
-              data: {
-                data: {
-                  user: null,
-                },
-              },
-            };
-          });
-
-        setUserData(data?.data.user);
-      };
-      fetchUserData();
-    }
-  }, [user]);
+    fetchUserData();
+  }, [user, location.pathname]);
 
   if (userData === undefined) {
     return <div>loading...</div>;
   }
 
   return (
-    <APIUserData.Provider value={userData}>{children}</APIUserData.Provider>
+    <APIUserData.Provider value={{ userData, fetchUserData }}>
+      {children}
+    </APIUserData.Provider>
   );
 };
