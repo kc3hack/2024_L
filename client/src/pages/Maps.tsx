@@ -121,6 +121,7 @@ const Maps = () => {
                 markers={selectedMarkers}
                 currentPosition={currentPosition}
                 setPosition={setCurrentPosition}
+                zoom={zoom}
               />
               {selectedMarkers.map((marker, index) => {
                 if (marker.point <= 10) {
@@ -161,16 +162,19 @@ const Maps = () => {
 type CurrentPositionComponentProps = {
   markers: Marker[],
   currentPosition: CurrentPosition,
-  setPosition: React.Dispatch<React.SetStateAction<CurrentPosition>>;
+  setPosition: React.Dispatch<React.SetStateAction<CurrentPosition>>,
+  zoom?: number;
 };
 
 const CurrentPositionComponent: React.FC<CurrentPositionComponentProps> = ({
   markers,
   currentPosition,
-  setPosition
+  setPosition,
+  zoom
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [localMarkers, setLocalMarkers] = useState(markers); // ローカル状態としてマーカーを管理
+  const { setFirstPosition } = useFirstPosition();
   const apiUser = useAPIUserDataContext();
 
   function getDistance(lat: number, lng: number) {
@@ -185,6 +189,11 @@ const CurrentPositionComponent: React.FC<CurrentPositionComponentProps> = ({
     }
     const newPosition = { latitude: e.latLng.lat(), longitude: e.latLng.lng() };
     setPosition(newPosition);
+    setFirstPosition({
+      latitude: newPosition.latitude,
+      longitude: newPosition.longitude,
+      defaultZoom: zoom
+    });
 
     for (let marker of localMarkers) { // for...of ループを使用
       if (getDistance(marker.latitude, marker.longitude) < 0.01) {
@@ -193,35 +202,35 @@ const CurrentPositionComponent: React.FC<CurrentPositionComponentProps> = ({
         let newPoint = 0;
         if (apiUser.userData?.point !== undefined) {
           newPoint = apiUser.userData.point + marker.point;
-        }else{
+        } else {
           console.log("ポイントあらへんがな");
         }
         alert(`${marker.name}に到達しました！\n${marker.point}ポイント獲得しました！`);
         await api.post("/api/v1/user_marker_links", { user_marker_link: { user_id: apiUser.userData?.id, marker_id: marker.id } });
-        await api.patch(`/api/v1/users/${apiUser.userData?.id}`, { user: { point: newPoint} });
+        await api.patch(`/api/v1/users/${apiUser.userData?.id}`, { user: { point: newPoint } });
         // マーカーを削除
         setLocalMarkers(current => current.filter(m => m.id !== marker.id));
         apiUser.fetchUserData();
+        break;
       }
     }
   };
-
-  return (
-    <AdvancedMarker position={{ lat: currentPosition.latitude, lng: currentPosition.longitude }} draggable onClick={() => setIsOpen(!isOpen)}
-      onDragEnd={handleDrag}>
-      <Pin background={"black"} borderColor={"white"} glyphColor={"white"} scale={2} />
-      {isOpen && <InfoWindow position={{ lat: currentPosition.latitude, lng: currentPosition.longitude }}
-        onCloseClick={() => setIsOpen(!isOpen)}
-      >
-        <div className="leading-loose bg-transparent">
-          <div>
-            {currentPosition.latitude}, {currentPosition.longitude}
+    return (
+      <AdvancedMarker position={{ lat: currentPosition.latitude, lng: currentPosition.longitude }} draggable onClick={() => setIsOpen(!isOpen)}
+        onDragEnd={handleDrag}>
+        <Pin background={"black"} borderColor={"white"} glyphColor={"white"} scale={2} />
+        {isOpen && <InfoWindow position={{ lat: currentPosition.latitude, lng: currentPosition.longitude }}
+          onCloseClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="leading-loose bg-transparent">
+            <div>
+              {currentPosition.latitude}, {currentPosition.longitude}
+            </div>
           </div>
-        </div>
-      </InfoWindow>}
-    </AdvancedMarker>
-  );
-};
+        </InfoWindow>}
+      </AdvancedMarker>
+    );
+  };
 
 
 type MarkerComponentProps = {
