@@ -74,7 +74,7 @@ const Ranking = () => {
               {ranking.map((user: any, index: number) => (
                 <tr
                   key={user.id}
-                  className={index % 2 === 0 ? "bg-gray-100" : ""}
+                  className={index % 2 === 0 ? "bg-gray-100" : "bg-white"}
                 >
                   <td
                     className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
@@ -84,7 +84,7 @@ const Ranking = () => {
                   </td>
                   <td className="border px-4 py-2 font-bold">{user.name}</td>
                   <td
-                    className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
+                    className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tr-lg" : ""
                       } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
                   >
                     {user.point}pt
