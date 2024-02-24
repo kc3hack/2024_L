@@ -17,9 +17,15 @@ const Rank = () => {
       ) {
         setGradesName("Silver");
         setGradesPoint(200);
-      } else {
+      } else if (
+        200 <= userData.userData.point &&
+        userData.userData.point < 300
+      ) {
         setGradesName("Gold");
         setGradesPoint(300);
+      } else {
+        setGradesName("Master");
+        setGradesPoint(userData.userData.point);
       }
     }
   }, [userData]); // userData.pointが変更されたら再実行
