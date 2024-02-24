@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAPIUserData } from '@/providers/APIUserData';
+import { useAPIUserDataContext } from '@/providers/APIUserData';
 import { API_URL } from '@/config';
 
 const api = axios.create({
@@ -8,7 +8,7 @@ const api = axios.create({
 });
 
 const Rank = () => {
-    const userData = useAPIUserData();
+    const userData = useAPIUserDataContext();
     const [gradesPoint, setGradesPoint] = useState(0); // 初期値は0
     const [gradesName, setGradesName] = useState("Bronze"); // 初期値はBronze
 
