@@ -51,50 +51,50 @@ const Ranking = () => {
   if (ranking.length === 0) return <p>Loading...</p>;
 
   return (
-    // 背景を水色にする
     <div className="bg-blue-100">
-
-    <div className="w-screen flex justify-center items-center"
-      style={{
-        backgroundImage: "url(/note-neo.png)",
-        backgroundSize: 'cover',
-        width: '100%',
-        height: '100vh',
-        backgroundPosition: 'center'
-      }}>
       <div className="w-screen flex justify-center items-center"
         style={{
-          backgroundImage: "url(/spring.png)",
+          backgroundImage: "url(/note-neo.png)",
           backgroundSize: 'cover',
           width: '100%',
           height: '100vh',
           backgroundPosition: 'center'
         }}>
+        <div className="w-screen flex justify-center items-center"
+          style={{
+            backgroundImage: "url(/spring.png)",
+            backgroundSize: 'cover',
+            width: '100%',
+            height: '100vh',
+            backgroundPosition: 'center'
+          }}>
 
-        <tbody>
-          {ranking.map((user: any, index: number) => (
-            <tr
-              key={user.id}
-              className={index % 2 === 0 ? "bg-gray-100" : ""}
-            >
-              <td
-                className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
-                  } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
-              >
-                {index + 1}位
-              </td>
-              <td className="border px-4 py-2 font-bold">{user.name}</td>
-              <td
-                className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
-                  } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
-              >
-                {user.point}pt
-              </td>
-            </tr>
-          ))}
-        </tbody>
+          <div className="overflow-y-auto h-80 mt-20">
+            <tbody>
+              {ranking.map((user: any, index: number) => (
+                <tr
+                  key={user.id}
+                  className={index % 2 === 0 ? "bg-gray-100" : ""}
+                >
+                  <td
+                    className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
+                      } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
+                  >
+                    {index + 1}位
+                  </td>
+                  <td className="border px-4 py-2 font-bold">{user.name}</td>
+                  <td
+                    className={`border px-4 py-2 font-bold ${index === 0 ? "rounded-tl-lg" : ""
+                      } ${index === ranking.length - 1 ? "rounded-bl-lg" : ""}`}
+                  >
+                    {user.point}pt
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   );
 
