@@ -41,7 +41,7 @@ const Rank = () => {
     <div
       className="w-screen flex justify-center items-center"
       style={{
-        backgroundImage: "url(/home_bg2.png)",
+        backgroundImage: "url(/town.png)",
         backgroundSize: "cover",
         width: "100%",
         height: "100vh",

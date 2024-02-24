@@ -5,7 +5,7 @@ const Home = () => {
     <div
       className="w-screen"
       style={{
-        backgroundImage: "url(/home-bg2.png)",
+        backgroundImage: "url(/town-neo.png)",
         backgroundSize: "cover",
         width: "100%",
         height: "100vh",
