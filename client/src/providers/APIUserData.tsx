@@ -6,10 +6,14 @@ import {
   ReactNode,
 } from "react";
 
+import { useLocation } from "react-router-dom";
+
 import axios from "axios";
 
 import { useFirebaseAuthContext } from "./FirebaseAuth";
 import { API_URL } from "@/config";
+
+import { protectedRoutes } from "@/Routing";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -26,7 +30,7 @@ const APIUserData = createContext<APIUserDataType | null | undefined>(
   undefined
 );
 
-export const useAPIUserData = () => {
+export const useAPIUserDataContext = () => {
   const context = useContext(APIUserData);
   if (context === undefined) {
     throw new Error(
@@ -37,12 +41,18 @@ export const useAPIUserData = () => {
 };
 
 export const APIUserDataProvider = ({ children }: { children: ReactNode }) => {
+  const location = useLocation();
   const user = useFirebaseAuthContext();
   const [userData, setUserData] = useState<APIUserDataType | null | undefined>(
     null
   );
 
   useEffect(() => {
+    // 認証が必要なページでない場合は、ユーザーデータを取得しない
+    if (!protectedRoutes.includes(location.pathname)) {
+      return;
+    }
+
     if (user) {
       const fetchUserData = async () => {
         const idToken = await user?.getIdToken();

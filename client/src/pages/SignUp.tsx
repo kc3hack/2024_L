@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Navigate, useLocation } from "react-router-dom";
 
-import { getAuth, createUserWithEmailAndPassword, getIdToken } from "firebase/auth";
-import { API_URL } from '../config';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  getIdToken,
+} from "firebase/auth";
+
+import { API_URL } from "../config";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: API_URL
+  baseURL: API_URL,
 });
 
 const SignUp = () => {
@@ -26,29 +30,56 @@ const SignUp = () => {
 
     const auth = getAuth();
     try {
-      const userCrediential = await createUserWithEmailAndPassword(auth, email, password)
-      // ユーザー登録が完了
+      const userCrediential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       const token = await getIdToken(userCrediential.user);
-      // api通信
+
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-      }
-
-      await api.post('/api/v1/users', { name: name }, { headers: headers });
+      };
+      await api.post("/api/v1/users", { name: name }, { headers: headers });
 
       // ホーム画面(現状はウェルカムページ)に遷移
-      navigate('/');
+      navigate("/");
     } catch (error: any) {
       alert(error.message);
+
+      // 新規登録に失敗した場合は、フォームをクリアする
+      setEmail("");
+      setName("");
+      setPassword("");
+      setPasswordConfirmation("");
+
+      // 新規登録に失敗した場合はFirebaseのユーザーも削除する
+      const user = getAuth().currentUser;
+      if (user) {
+        await user.delete();
+      }
     }
   };
 
   return (
-    <div className="w-screen" style={{ backgroundImage: "url(/background.png)", backgroundSize: 'cover', width: '100%', height: '100vh', backgroundPosition: 'center' }}>
+    <div
+      className="w-screen"
+      style={{
+        backgroundImage: "url(/background.png)",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "100vh",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="items-center">
-        <img src="KansaiOdyssey.png" alt="関西オデッセイ_ロゴ" style={{ width: '50%', height: '50%' }}/>
+        <img
+          src="KansaiOdyssey.png"
+          alt="関西オデッセイ_ロゴ"
+          style={{ width: "50%", height: "50%" }}
+        />
         <div className="flex items-center justify-center">
           <div className="w-72 bg-white rounded-md shadow-lg p-4">
             <form className="login">
@@ -121,6 +152,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;
