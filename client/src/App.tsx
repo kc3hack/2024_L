@@ -16,11 +16,11 @@ const App = () => {
   }, [location.pathname]);
 
   return (
-    <div className="App">
-      <div className="md:container mx-auto my-auto">
+    <div className="App flex flex-col min-h-screen">
+      <div className="flex-grow">
         <Routing />
-        {isFooter && <Footer />}
       </div>
+      {isFooter && <Footer />}
     </div>
   );
 };
