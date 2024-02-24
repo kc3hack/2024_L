@@ -83,8 +83,8 @@ const Maps = () => {
 
   //ユーザが取得済みのマーカーを取得
   useEffect(() => {
-    if (!apiUser) return;
-    getUserMarkers(apiUser.id).then(setUserMarkers);
+    if (!apiUser.userData) return;
+    getUserMarkers(apiUser.userData.id).then(setUserMarkers);
   }, [apiUser]);
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const Maps = () => {
     <div
       className="w-screen"
       style={{
-        backgroundImage: "url(/home_bg.jpg)",
+        backgroundImage: "url(/home_bg2.png)",
         backgroundSize: "cover",
         width: "100%",
         height: "100vh",

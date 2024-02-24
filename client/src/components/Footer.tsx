@@ -8,7 +8,8 @@ import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 bg-white py-5 border-t-8 w-full">
+    <footer className="fixed bottom-0 bg-white py-5 border-t-8 w-full"
+      style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
       <div
         className="flex items-center justify-center"
         style={{ justifyContent: "space-around" }}
