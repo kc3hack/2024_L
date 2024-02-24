@@ -26,9 +26,9 @@ end
 
 users = User.all
 if users.empty?
-  User.create(name: "Admin", uid: "admin")
-  User.create(name: "User", uid: "user")
-  User.create(name: "Guest", uid: "guest")
+  User.create(name: "KansaiMaster", uid: "test:kansaimaster")
+  User.create(name: "はばタン", uid: "test:habatan")
+  User.create(name: "おの社協戦士ウイングレッド", uid: "test:wingred")
 end
 
 markers = Marker.all
@@ -53,4 +53,8 @@ if user_marker_links.empty?
   UserMarkerLink.create(user_id: 1, marker_id: 4)
   UserMarkerLink.create(user_id: 2, marker_id: 5)
   UserMarkerLink.create(user_id: 3, marker_id: 6)
+
+  User.find(1).update(point: 110)
+  User.find(2).update(point: 100)
+  User.find(3).update(point: 50)
 end
