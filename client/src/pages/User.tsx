@@ -54,6 +54,7 @@ const User = () => {
             .catch(() => {
                 alert('ユーザ情報の更新に失敗しました');
             });
+        setEditMode(false);
     };
 
     // キャンセルボタンを押した時の処理
