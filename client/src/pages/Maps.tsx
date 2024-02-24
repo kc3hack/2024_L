@@ -9,7 +9,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import axios from "axios";
 import { useAPIUserDataContext } from "@/providers/APIUserData";
-import { useFirstPosition } from "@/hook/firstPosition";
+import { useFirstPosition } from "@/hooks/firstPosition";
 import { GOOGLE_MAP_ID, GOOGLE_MAP_KEY, API_URL } from "@/config";
 
 //axiosのインスタンスを作成

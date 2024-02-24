@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { useFirstPosition } from "@/hook/firstPosition";
+import { useFirstPosition } from "@/hooks/firstPosition";
 
 const Map = () => {
   const navigate = useNavigate();
