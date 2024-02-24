@@ -9,6 +9,9 @@ const api = axios.create({
     baseURL: API_URL,
 });
 
+/**
+ * ユーザページ
+ */
 const User = () => {
     const apiUserData = useAPIUserDataContext();
     const [editMode, setEditMode] = useState(false);
@@ -16,17 +19,21 @@ const User = () => {
 
     const navigate = useNavigate();
 
+    // ユーザデータが取得できたら、名前をセット
     useEffect(() => {
         if (apiUserData) {
             setName(apiUserData.name);
         }
     }, [apiUserData]);
 
+    // ユーザデータ更新APIのリクエストボディの型
     type UpdateUserDataType = {
         user: {
             name: string,
         },
     };
+
+    // ユーザデータ更新APIのリクエストボディを構築
     const buildUpdateUserData = (name: string): UpdateUserDataType => {
         return {
             user: {
@@ -34,6 +41,7 @@ const User = () => {
             },
         };
     }
+    //ユーザデータの更新処理
     const handleUpdate = async () => {
         if (!window.confirm('ユーザ情報を更新しますか？')) {
             return;
@@ -48,6 +56,12 @@ const User = () => {
             });
     };
 
+    // キャンセルボタンを押した時の処理
+    const handleCancel = () => {
+        setName(apiUserData?.name || "");
+    };
+
+    // ログアウト処理
     const handleSignOut = async () => {
         const auth = getAuth();
         await auth.signOut();
@@ -59,7 +73,10 @@ const User = () => {
             <div className="flex flex-col items-center space-y-4">
                 <h1 className="text-xl font-bold">ユーザーページ</h1>
                 <button
-                    onClick={() => setEditMode(!editMode)}
+                    onClick={() => {
+                        editMode && handleCancel();
+                        setEditMode(!editMode);
+                    }}
                     className={`bg-${editMode ? 'red' : 'blue'}-500 text-white px-4 py-2 rounded-md`}
                 >
                     {editMode ? 'キャンセル' : '編集'}
