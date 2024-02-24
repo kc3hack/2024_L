@@ -51,10 +51,12 @@ const Ranking = () => {
   if (ranking.length === 0) return <p>Loading...</p>;
 
   return (
+    // 背景を水色にする
+    <div className="bg-blue-100">
 
     <div className="w-screen flex justify-center items-center"
       style={{
-        backgroundImage: "url(/note.png)",
+        backgroundImage: "url(/note-neo.png)",
         backgroundSize: 'cover',
         width: '100%',
         height: '100vh',
@@ -92,6 +94,7 @@ const Ranking = () => {
           ))}
         </tbody>
       </div>
+    </div>
     </div>
   );
 
