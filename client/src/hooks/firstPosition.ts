@@ -9,10 +9,10 @@ export const useFirstPosition = () => {
   const getFirstPosition = () => {
     // localStorageから取得した値がnullならデフォルト値を使用
     const latitude = parseFloat(
-      localStorage.getItem("latitude") ?? "34.841928"
+      localStorage.getItem("latitude") ?? "34.995102123669774"
     );
     const longitude = parseFloat(
-      localStorage.getItem("longitude") ?? "135.705585"
+      localStorage.getItem("longitude") ?? "135.74050891851292"
     );
     const defaultZoom = parseInt(localStorage.getItem("defaultZoom") ?? "15");
 
